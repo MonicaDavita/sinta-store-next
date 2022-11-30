@@ -1,7 +1,9 @@
+import Sidebar from "./components/sidebar";
 
 export default function homeAdmin() {
     return (
-        <div className="min-h-full h-screen justify-left py-6 sm:px-6 lg:px-8 mt-10">
+        
+        <div className="min-h-full h-screen justify-right py-6 sm:ml-40 lg:ml-60 mt-10">
             <div className="max-w-md w-full space-y-6">
                 <h3 className="ml-6 mt-6 text-justify text-2xl font-extrabold text-amber-700">
                     Selamat datang,
@@ -13,9 +15,9 @@ export default function homeAdmin() {
                     Ajuan Restock
                 </h4>
             </div>
-            <div className="pt-3 pb-3 text-justify text-1xl font-bold max-w-md w-full divide-y divide-slate-300">
+            <div className="md:ml-3 pt-3 pb-3 text-justify text-1xl font-bold max-w-md w-full divide-y divide-slate-300">
                 <div className=" bg-slate-300 pt-3 pb-3">
-                    <h4 className="ml-6  text-slate-900">
+                    <h4 className="ml-6 text-slate-900">
                         Toko
                     </h4>
                 </div>
@@ -32,6 +34,7 @@ export default function homeAdmin() {
                     </button>
                 </div>
             </div>
+            <Sidebar />
         </div>
     )
 }

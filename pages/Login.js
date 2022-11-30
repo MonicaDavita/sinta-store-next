@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import Header from './Header'
-import { loginFields } from "./formFields.js";
-import FormAction from "./FormAction.js";
-import FormExtra from "./FormExtra.js";
-import Input from "./Input.js";
+import Header from './components/Header'
+import { loginFields } from "./constants/formFields.js";
+import FormAction from "./components/FormAction.js";
+import FormExtra from "./components/FormExtra.js";
+import Input from "./components/Input.js";
 
 const fields = loginFields;
 let fieldsState = {};
