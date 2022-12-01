@@ -1,8 +1,12 @@
+import { useState } from 'react';
+import { Fragment } from "react";
 import Sidebar from "./components/sidebar";
-
+import Modal from "./components/modal"
 export default function homeAdmin() {
+    const [showModal, setShowModal] = useState(false);
+
     return (
-        
+        <Fragment>
         <div className="min-h-full h-screen justify-right py-6 sm:ml-40 lg:ml-60 mt-10">
             <div className="max-w-md w-full space-y-6">
                 <h3 className="ml-6 mt-6 text-justify text-2xl font-extrabold text-amber-700">
@@ -23,18 +27,20 @@ export default function homeAdmin() {
                 </div>
                 <div className="ml-6 mr-10 grid-cols-2 flex justify-between pt-2 mb-2" >
                     <h4 className="text-justify-left"> Kolam 2 </h4>
-                    <button type="button" className="bg-blue-500 hover:bg-blue-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl">
+                    <button type="button" className="bg-blue-500 hover:bg-blue-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl" onClick={() => setShowModal(true)}>
                         Lihat
                     </button>
                 </div>
                 <div className="ml-6 mr-10 grid-cols-2 flex justify-between pt-2 mb-2">
                     <h4> Kolam 3 </h4>
-                    <button type="button" className="bg-blue-500 hover:bg-blue-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl">
+                    <button type="button" className="bg-blue-500 hover:bg-blue-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl" onClick={() => setShowModal(true)}>
                         Lihat
                     </button>
                 </div>
             </div>
             <Sidebar />
         </div>
+        <Modal isVisible={showModal} onClose={() => setShowModal(false)} />
+        </Fragment>
     )
 }
