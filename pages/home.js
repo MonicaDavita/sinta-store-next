@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Fragment } from "react";
 import Sidebar from "./components/sidebar";
-import Modal from "./components/modal"
+import Modal from "./components/modalAjuan"
 export default function homeAdmin() {
     const [showModal, setShowModal] = useState(false);
 

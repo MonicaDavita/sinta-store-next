@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import LoginPage from './Login'
 import HomeAdmin from './home'
+import LihatToko from './lihatToko'
 
 export default function Index() {
   return (
@@ -8,6 +9,7 @@ export default function Index() {
     <div className="max-w-md w-full space-y-8">
     <LoginPage />
     <Link href="/home" element={<HomeAdmin />}></Link>
+    <Link href="/lihatToko" element={<LihatToko />}></Link>    
     </div>
   </div>
   );
