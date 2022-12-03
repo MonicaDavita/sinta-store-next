@@ -2,9 +2,14 @@ import { Disclosure } from "@headlessui/react";
 import React from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Link from "next/link";
+import { Fragment } from "react";
+import { useState } from 'react';
+import ModalLogout from "./modalLogout";
 
 function sidebar(){
+    const [showModal, setShowModal] = useState(false);
     return(
+        <Fragment>
         <div>
             <Disclosure as = "nav">
             <Disclosure.Button className="absolute top-12 right-4 inline-flex items-center peer justify-center rounded-md p-2 text-gray-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:rind-white group hover:bg-gray-900">
@@ -24,13 +29,20 @@ function sidebar(){
                     <div className="border-b border-amber-700 pt-4 pb-4">
                     <Link href="/lihatToko">Lihat Toko</Link>
                     </div>
-                    <h1 className="border-b border-amber-700 pt-4 pb-4">Lihat Karyawan</h1>
+                    <div className="border-b border-amber-700 pt-4 pb-4">
+                    <Link href="/karyawan">Lihat Karyawan</Link>
+                    </div>
                     <h1 className="border-b border-amber-700 pt-4 pb-4">Laporan Keuangan</h1>
-                    <button className="mt-6 mb-6 pt-1 pb-1 pr-3 pl-3 rounded-lg bg-amber-700 text-white">Logout</button>
+                    <button className="mt-6 mb-6 pt-1 pb-1 pr-3 pl-3 rounded-lg bg-amber-700 text-white" onClick={() => setShowModal(true)}>
+                        Logout
+                    </button>
                 </div>
             </div>
             </Disclosure>
         </div>
+        <ModalLogout isVisible={showModal} onClose={() => setShowModal(false)}/>
+        </Fragment>
+
     )
 }
 
