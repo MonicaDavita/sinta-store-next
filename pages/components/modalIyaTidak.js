@@ -15,9 +15,9 @@ function modalIyaTidak( { isVisible, onClose, namaKolam }){
                 <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                 </svg>
                 </button>
-                <div className="bg-white p-2 rounded text-black flex">
+                <div className="bg-white p-2 rounded text-black grid grid-rows-2 gap-0 justify-center place-items-center">
                     <h1 className="text-center">Hapus Toko?</h1>
-                    <div className="grid-cols-2 mt-12 flex justify-end">
+                    <div className="grid grid-cols-2 mt-6 mb-4 justify-center place-items-center">
                         <button type="button" className="bg-green-500 hover:bg-green-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl mr-3">Iya</button>
                         <button type="button" className="bg-red-500 hover:bg-red-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl ml-3">Tidak</button>
                      </div>

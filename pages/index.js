@@ -3,6 +3,7 @@ import LoginPage from './Login'
 import HomeAdmin from './home'
 import LihatToko from './lihatToko'
 import LihatKaryawan from './karyawan'
+import LihatKeuangan from './laporan-keuangan'
 
 export default function Index() {
   return (
@@ -12,7 +13,8 @@ export default function Index() {
     <Link href="/home" element={<HomeAdmin />}></Link>
     <Link href="/toko" element={<LihatToko />}></Link>
     <Link href="/karyawan" element={<LihatKaryawan />}></Link>    
-    
+    <Link href="/laporan-keuangan" element={<LihatKeuangan />}></Link>    
+
     </div>
   </div>
   );
