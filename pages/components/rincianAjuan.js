@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 function rincianAjuan() {
   return(
@@ -25,7 +26,9 @@ function rincianAjuan() {
         <div className="text-center items-center mt-24 mb-10">
             <h1>Sudah Diproses?</h1>
             <div className="grid-cols-2 flex justify-center mt-3">
+                <Link href="/sudah-proses">
                 <button type="button" className="bg-green-500 hover:bg-green-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl mr-3">Iya</button>
+                </Link>
                 <button type="button" className="bg-red-500 hover:bg-red-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl ml-3">Tidak</button>
             </div>
         </div>
