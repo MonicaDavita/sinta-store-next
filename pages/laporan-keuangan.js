@@ -25,8 +25,8 @@ export default function laporanKeuangan(){
                     <h2 className="mb-1 font-bold">Bulanan</h2>
                 </button>
             </div>
-            <div className="md:ml-6 grid grid-rows-3">
-                <div className="grid grid-cols-6 justify-start">
+            <div className="md:ml-6 grid grid-rows-7">
+                <div className="grid grid-cols-6 justify-start h-10">
                     <button className="mt-2 mb-2 box-border border border-black bg-amber-400 focus:bg-amber-600 text-black focus:text-white text-bold">
                         <h3>K1</h3>
                     </button>
@@ -46,8 +46,8 @@ export default function laporanKeuangan(){
                         <h3>Total</h3>
                     </button>
                 </div>
-                <div className="grid grid-rows-3 justify-start">
-                    <div className="grid grid-cols-4 border box-border border-black bg-amber-300 text-black justify-center items-center">
+                <div className="grid grid-rows-3 justify-start position">
+                    <div className="grid grid-cols-4 border box-border border-black bg-amber-300 text-black items-center font-semibold">
                         <h2 className="ml-2">Nama</h2>
                         <h2 className="ml-2">Terjual</h2>
                         <h2 className="ml-2">Harga Satuan</h2>

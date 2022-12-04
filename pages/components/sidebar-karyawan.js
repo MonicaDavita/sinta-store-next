@@ -6,7 +6,7 @@ import { Fragment } from "react";
 import { useState } from 'react';
 import ModalLogout from "./modalLogout";
 
-function sidebar(){
+function sidebarKaryawan(){
     const [showModal, setShowModal] = useState(false);
     return(
         <Fragment>
@@ -24,16 +24,13 @@ function sidebar(){
             
                 <div className="text-base text-left cursor-pointer font-bold text-black border-b mt-20">
                     <div className="border-b border-amber-700 pt-4 pb-4">
-                    <Link href="/home">Home</Link>
+                    <Link href="/catat-terjual">Catat Terjual</Link>
                     </div>
                     <div className="border-b border-amber-700 pt-4 pb-4">
-                    <Link href="/lihatToko">Lihat Toko</Link>
+                    <Link href="/restock-barang">Restock Barang</Link>
                     </div>
                     <div className="border-b border-amber-700 pt-4 pb-4">
-                    <Link href="/karyawan">Lihat Karyawan</Link>
-                    </div>
-                    <div className="border-b border-amber-700 pt-4 pb-4">
-                    <Link href="/laporan-keuangan">Laporan Keuangan</Link>
+                    <Link href="/history-penjualan">History Penjualan</Link>
                     </div>
                     <button className="mt-6 mb-6 pt-1 pb-1 pr-3 pl-3 rounded-lg bg-amber-700 text-white" onClick={() => setShowModal(true)}>
                         Logout
@@ -48,4 +45,4 @@ function sidebar(){
     )
 }
 
-export default sidebar;
+export default sidebarKaryawan;
