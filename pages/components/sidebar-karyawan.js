@@ -30,7 +30,7 @@ function sidebarKaryawan(){
                     <Link href="/restock-barang">Restock Barang</Link>
                     </div>
                     <div className="border-b border-amber-700 pt-4 pb-4">
-                    <Link href="/history-penjualan">History Penjualan</Link>
+                    <Link href="/history">History Penjualan</Link>
                     </div>
                     <button className="mt-6 mb-6 pt-1 pb-1 pr-3 pl-3 rounded-lg bg-amber-700 text-white" onClick={() => setShowModal(true)}>
                         Logout
