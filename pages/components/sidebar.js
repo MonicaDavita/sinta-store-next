@@ -35,6 +35,9 @@ function sidebar(){
                     <div className="border-b border-amber-700 pt-4 pb-4">
                     <Link href="/laporan-keuangan">Laporan Keuangan</Link>
                     </div>
+                    <div className="border-b border-amber-700 pt-4 pb-4">
+                    <Link href="/tambah-barang">Tambah Barang pada Toko</Link>
+                    </div>
                     <button className="mt-6 mb-6 pt-1 pb-1 pr-3 pl-3 rounded-lg bg-amber-700 text-white" onClick={() => setShowModal(true)}>
                         Logout
                     </button>
