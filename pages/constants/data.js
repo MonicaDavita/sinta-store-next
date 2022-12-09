@@ -29,3 +29,64 @@ export const dataHistory = [
         "timestamp":"09.41"
     }
 ]
+
+export const dataAjuan = [
+    {
+        "name":"Kolam 2",
+    },
+    {
+        "name":"Kolam 3"
+    }
+]
+
+export const dataAjuanBarang = [
+    {
+        "name": "popmie ayam",
+        "jumlah": 2
+    },
+    {
+        "name": "popmie ayam bawang",
+        "jumlah": 1
+    }
+]
+
+export const dataKolam = [
+    {
+        "name":"Kolam 1",
+    },
+    {
+        "name":"Kolam 2"
+    },
+    {
+        "name":"Kolam 3"
+    },
+    {
+        "name":"Kolam 4"
+    },
+    {
+        "name":"Kolam 5"
+    }
+]
+
+export const dataKaryawan = [
+    {
+        "name":"Karyawan 1",
+        "toko":"Kolam 1"
+    },
+    {
+        "name":"Karyawan 2",
+        "toko":"Kolam 2"
+    },
+    {
+        "name":"Karyawan 3",
+        "toko":"Kolam 3"
+    },
+    {
+        "name":"Karyawan 4",
+        "toko":"Kolam 4"
+    },
+    {
+        "name":"Karyawan 5",
+        "toko":"Kolam 5"
+    }
+]

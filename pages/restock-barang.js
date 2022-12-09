@@ -9,6 +9,8 @@ import BarangToko from "./components/BarangToko";
 import { dataBarang } from "./constants/data";
 
 export default function restockBarang() {
+    const [showModal, setShowModal] = useState(false);
+
     return (
         <Fragment>
             <div className="min-h-full h-screen justify-start py-6 sm:ml-40 lg:ml-60 mt-10">

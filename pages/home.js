@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Fragment } from "react";
 import Sidebar from "./components/sidebar";
 import Modal from "./components/modalAjuan";
+import { dataAjuan } from "./constants/data";
+import TampilanAjuan from "./components/ajuanComp";
 
 export default function homeAdmin() {
     const [showModal, setShowModal] = useState(false);
@@ -20,31 +22,22 @@ export default function homeAdmin() {
                         Ajuan Restock
                     </h4>
                 </div>
-                <div className="md:ml-3 pt-3 pb-3 text-justify text-1xl font-bold max-w-md w-full divide-y divide-slate-300">
+                <div className="md:ml-3 pt-3 pb-3 text-justify text-1xl font-bold w-full divide-y divide-slate-300">
                     <div className=" bg-slate-300 pt-3 pb-3">
                         <h4 className="ml-6 text-slate-900">
-                            Toko
+                            TOKO
                         </h4>
                     </div>
-                    <div className="ml-6 mr-10 grid-cols-2 flex justify-between pt-2 mb-2" >
-                        <h4 className="text-justify-left"> Kolam 2 </h4>
-                        <button type="button" className="bg-blue-500 hover:bg-blue-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl" onClick={() => setShowModal(true)}>
-                            Lihat
-                        </button>
-                    </div>
-                    <div className="ml-6 mr-10 grid-cols-2 flex justify-between pt-2 mb-2">
-                        <h4> Kolam 3 </h4>
-                        <button type="button" className="bg-blue-500 hover:bg-blue-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl" onClick={() => setShowModal(true)}>
-                            Lihat
-                        </button>
-                    </div>
                 </div>
-                <Sidebar />
+                {dataAjuan.map((ajuan) => {
+                    return <TampilanAjuan props={ajuan} />
+                })}  
             </div>
-            <Modal 
-            modalText="Sudah Diproses?"
-            linkAjuan="/sudah-proses"
-            isVisible={showModal} onClose={() => setShowModal(false)} />
+            <Sidebar />
+            <Modal
+                modalText="Sudah Diproses?"
+                linkAjuan="/sudah-proses"
+                isVisible={showModal} onClose={() => setShowModal(false)} />
         </Fragment>
     )
 }

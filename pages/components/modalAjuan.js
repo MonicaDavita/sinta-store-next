@@ -1,7 +1,12 @@
 import React from "react";
 import Link from "next/link";
+import { dataAjuanBarang } from "../constants/data";
+import { useState } from 'react';
+import AjuanBarang from "./ajuanBarangModal";
 
-function modal({ isVisible, onClose, modalText, linkAjuan }) {
+function modal({ isVisible, onClose, modalText, linkAjuan, props }) {
+    const [count, setCount] = useState(0);
+    const countStock = useState(10);
     if (!isVisible) return null;
 
     const handleClose = (e) => {
@@ -27,14 +32,17 @@ function modal({ isVisible, onClose, modalText, linkAjuan }) {
                                 </tr>
                             </thead>
                             <tbody className="text-left">
-                                <tr className="border-b border-amber-700 mb-8">
-                                    <td>Pop Mie Ayam</td>
+                                {dataAjuanBarang.map((ajuanBarang) => {
+                                return <AjuanBarang props={ajuanBarang} />
+                                })}
+                                {/* <tr className="border-b border-amber-700 mb-8">
+                                    <td>{}</td>
                                     <td>2</td>
-                                </tr>
-                                <tr className="border-b border-amber-700 mb-8">
+                                </tr> */}
+                                {/* <tr className="border-b border-amber-700 mb-8">
                                     <td>Pop Mie Ayam Bwg</td>
                                     <td>1</td>
-                                </tr>
+                                </tr> */}
                             </tbody>
                         </table>
                         <div className="text-center items-center mt-24 mb-10">

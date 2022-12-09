@@ -13,7 +13,7 @@ export default function CatatTerjual() {
 
     useEffect(() => {
         setLoading(true)
-        fetch('https://sinta.gdlx.live/produk')
+        fetch('https://sinta.gdlx.live/stok')
             .then((res) => res.json())
             .then((data) => {
                 setData(data)
@@ -76,10 +76,16 @@ export default function CatatTerjual() {
                                     </button>
                                     </div>
                                 </div> */}
-                                {console.log(data.data)}
-                    {data.data.map((barang) => {
+                                {/* {console.log(data.data)} */}
+                    {data && data.data.map((barang) => {
                         return <BarangToko props={barang} />
                     })}
+                    {
+                        !data && 
+                        <div>
+                            Kosong
+                        </div>
+                    }
                 </div>
                 <div className="flex justify-center items-center md:justify-start">
                     <button className='group relative w-1/2 flex justify-center py-2 px-4 md:ml-6 mb-6 border border-transparent text-sm font-medium rounded-md text-white bg-amber-700 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-amber-400 mt-5'>
