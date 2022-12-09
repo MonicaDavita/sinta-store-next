@@ -1,6 +1,8 @@
 import React, { Fragment } from "react";
 import Link from "next/link";
 import SidebarKaryawan from "./components/sidebar-karyawan";
+import TampilanHistory from "./components/TampilanHistory";
+import { dataHistory } from "./constants/data"
 import SearchBar from "./components/searchBar";
 
 export default function history() {
@@ -39,23 +41,15 @@ export default function history() {
                     </div>
                     <h1 className="ml-6 text-justify text-2xl font-extrabold text-black mb-4">Kolam 2</h1>
                     <SearchBar />
-                    <div className="grid grid-rows-3 justify-start position mt-4 md:ml-6">
+                    <div className="grid grid-rows-3 md:justify-start sm:justify-center position mt-4 md:ml-6">
                         <div className="grid grid-cols-3 border box-border border-black bg-slate-300 text-slate-900 items-center text-center font-semibold">
                             <h2>Nama</h2>
                             <h2>Terjual</h2>
                             <h2>Waktu</h2>
                         </div>
-                        <div className="grid grid-cols-3 border box-border text-black text-center items-center">
-                            <h2 className="ml-2">Pop Mie Ayam</h2>
-                            <h2 className="ml-2">2</h2>
-                            <h2 className="ml-2">09.41</h2>
-                        </div>
-                        <div className="grid grid-cols-3 border box-border text-black text-center items-center">
-                            <h2 className="ml-2">Pop Mie Ayam Bawang</h2>
-                            <h2 className="ml-2">1</h2>
-                            <h2 className="ml-2">09.41</h2>
-                        </div>
-                        
+                        {dataHistory.map((history) => {
+                            return <TampilanHistory props={history} />
+                        })}
                     </div>
                     <SidebarKaryawan />
                 </div>
