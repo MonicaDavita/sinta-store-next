@@ -22,7 +22,7 @@ function modalLogout( { isVisible, onClose, namaKolam }){
                         <Link href="/">
                         <button type="button" className="bg-green-500 hover:bg-green-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl mr-3">Iya</button>
                         </Link>
-                        <button type="button" className="bg-red-500 hover:bg-red-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl ml-3">Tidak</button>
+                        <button type="button" className="bg-red-500 hover:bg-red-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl ml-3" onClick={()=>onClose()}>Tidak</button>
                      </div>
                 </div>
             </div>
