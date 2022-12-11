@@ -33,14 +33,14 @@ const signupFields=[
         placeholder:"Username"   
     },
     {
-        labelText:"Email address",
-        labelFor:"email-address",
-        id:"email-address",
-        name:"email",
-        type:"email",
-        autoComplete:"email",
+        labelText:"Nama Toko",
+        labelFor:"nama-toko",
+        id:"nama-toko",
+        name:"toko",
+        type:"toko",
+        autoComplete:"toko",
         isRequired:true,
-        placeholder:"Email address"   
+        placeholder:"Nama Toko"   
     },
     {
         labelText:"Password",

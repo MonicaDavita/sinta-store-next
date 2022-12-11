@@ -7,7 +7,6 @@ import { useState, useEffect } from "react";
 import BarangToko from "./components/BarangToko";
 export default function CatatTerjual() {
 
-    // fetching
     const [data, setData] = useState(null)
     const [isLoading, setLoading] = useState(false)
 
@@ -21,10 +20,9 @@ export default function CatatTerjual() {
             })
     }, [])
 
-    
+
     const [count, setCount] = useState(0);
-    const countStock = useState(10);
-    
+
     function increment() {
         setCount(function (prevCount) {
             return (prevCount += 1);
@@ -76,12 +74,12 @@ export default function CatatTerjual() {
                                     </button>
                                     </div>
                                 </div> */}
-                                {/* {console.log(data.data)} */}
+                    {/* {console.log(data.data)} */}
                     {data && data.data.map((barang) => {
                         return <BarangToko props={barang} />
                     })}
                     {
-                        !data && 
+                        !data &&
                         <div>
                             Kosong
                         </div>

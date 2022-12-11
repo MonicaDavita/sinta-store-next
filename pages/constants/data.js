@@ -90,3 +90,15 @@ export const dataKaryawan = [
         "toko":"Kolam 5"
     }
 ]
+
+export const dataCreateAjuan = [
+    {
+        "status":true,
+        "detail_ajuan": [
+            {
+                "produk_id": 1,
+                "jumlah":100
+            }
+        ]
+    }
+]
