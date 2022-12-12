@@ -10,6 +10,7 @@ let fieldsState = {};
 fields.forEach(field => fieldsState[field.id] = '');
 
 export default function Login() {
+     
     const [loginState, setLoginState] = useState(fieldsState);
 
     const handleChange = (e) => {
@@ -23,8 +24,27 @@ export default function Login() {
 
     //Handle Login API Integration here
     const authenticateUser = () => {
-
-    }
+        async function postData(url = 'https://sinta.gdlx.live/auth/login', data = {loginState}) {
+    
+            const response = await fetch(url, {
+                method: 'POST',
+                mode: 'cors',
+                headers: new Headers({'content-type': 'application/json'}),
+                body: JSON.stringify(data.loginState)
+            });
+            
+            console.log(response)
+            const json = await response.json();
+            return json
+         }
+         var response = postData() 
+         response.then(res =>{
+            if (res != null && res.status == true) {
+                window.localStorage.setItem("token", res.data)
+            }
+         })
+        }
+        
 
     return (
         <>

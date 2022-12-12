@@ -12,12 +12,29 @@ export default function CatatTerjual() {
 
     useEffect(() => {
         setLoading(true)
-        fetch('https://sinta.gdlx.live/stok')
-            .then((res) => res.json())
-            .then((data) => {
-                setData(data)
-                setLoading(false)
-            })
+        // fetch('https://sinta.gdlx.live/stok')
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         setData(data)
+        //         setLoading(false)
+        //     })
+        async function postData(url = 'https://sinta.gdlx.live/stok') {
+            const response = await fetch(url, {
+                method: 'GET',
+                mode: 'cors',
+                headers: new Headers({'content-type': 'application/json'}),
+                headers: new Headers({'authorization': "Bearer "+ window.localStorage.getItem("token")}),
+            });
+            
+            console.log(response)
+            const json = await response.json();
+            return json
+         }
+         var response = postData()
+         response.then(res => {
+            console.log(res.data.daftar_stok)
+            setData(res.data.daftar_stok)
+         })
     }, [])
 
 
@@ -75,7 +92,7 @@ export default function CatatTerjual() {
                                     </div>
                                 </div> */}
                     {/* {console.log(data.data)} */}
-                    {data && data.data.map((barang) => {
+                    {data && data.map((barang) => {
                         return <BarangToko props={barang} />
                     })}
                     {

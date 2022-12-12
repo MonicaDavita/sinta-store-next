@@ -21,8 +21,8 @@ export default function BarangToko({props}){
     {console.log(props)}
     return (
     <div className="grid grid-cols-3 border box-border text-black text-center items-center">
-                        <h2 className="ml-2">{props.nama}</h2>
-                        <h2 className="ml-2">{props.countStock}</h2>
+                        <h2 className="ml-2">{props.produk.nama}</h2>
+                        <h2 className="ml-2">{props.Jumlah}</h2>
                         <div className="grid grid-cols-3 justify-center place-items-center">
                             <button onClick={increment}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
