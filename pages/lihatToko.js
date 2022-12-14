@@ -1,11 +1,33 @@
 import React from "react";
 import Sidebar from "./components/sidebar";
 import Link from "next/link";
-import { useState } from 'react';
-import { dataKolam } from "./constants/data";
+import { useState, useEffect } from 'react';
 import TampilanKolam from "./components/tampilanKolam";
 
 export default function lihatToko() {
+    const [data, setData] = useState(null);
+    const [isLoading, setLoading] = useState(false);
+    useEffect(() => {
+        setLoading(true)
+
+        async function postData(url = 'https://sinta.gdlx.live/toko') {
+            const response = await fetch(url, {
+                method: 'GET',
+                mode: 'cors',
+                headers: new Headers({ 'content-type': 'application/json' }),
+                headers: new Headers({ 'authorization': "Bearer " + window.localStorage.getItem("token") }),
+            });
+
+            const json = await response.json();
+            console.log(json)
+            return json
+        }
+        var response = postData()
+        response.then(res => {
+            console.log(res.data)
+            setData(res.data)
+        })
+    }, [])
     const [showModal, setShowModal] = useState(false);
     return (
         <div className="min-h-full h-screen justify-right py-6 sm:ml-40 lg:ml-60 mt-10">
@@ -23,7 +45,7 @@ export default function lihatToko() {
                         Nama Toko
                     </h4>
                 </div>
-                {dataKolam.map((kolam) => {
+                {data != null && data.map((kolam) => {
                     return <TampilanKolam props={kolam} />
                 })}
 

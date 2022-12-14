@@ -1,18 +1,40 @@
 import React from "react";
 import Link from "next/link";
-import { dataAjuanBarang } from "../constants/data";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AjuanBarang from "./ajuanBarangModal";
 
 function modal({ isVisible, onClose, modalText, linkAjuan, props }) {
     const [count, setCount] = useState(0);
     const countStock = useState(10);
+    const [data, setData] = useState(null);
+    const [isLoading, setLoading] = useState(false);
+    useEffect(() => {
+        setLoading(true)
+
+        async function postData(url = 'https://sinta.gdlx.live/ajuan') {
+            const response = await fetch(url, {
+                method: 'GET',
+                mode: 'cors',
+                headers: new Headers({ 'content-type': 'application/json' }),
+                headers: new Headers({ 'authorization': "Bearer " + window.localStorage.getItem("token") }),
+            });
+
+            const json = await response.json();
+            console.log(json)
+            return json
+        }
+        var response = postData()
+        response.then(res => {
+            console.log(res.data)
+            setData(res.data)
+        })
+    }, [])
     if (!isVisible) return null;
 
     const handleClose = (e) => {
         if (e.target.id === "wrapper") onClose();
     }
-
+    
     return (
         <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center" id="wrapper" onClick={handleClose}>
             <div className="md:w-[600px] sm:w-[500px] flex flex-col">
@@ -32,9 +54,15 @@ function modal({ isVisible, onClose, modalText, linkAjuan, props }) {
                                 </tr>
                             </thead>
                             <tbody className="text-left">
-                                {dataAjuanBarang.map((ajuanBarang) => {
-                                return <AjuanBarang props={ajuanBarang} />
+                                {data.map((ajuanBarang) => {
+                                    return <AjuanBarang props={ajuanBarang} />
                                 })}
+                                {
+                                    !data &&
+                                    <div>
+                                        Kosong
+                                    </div>
+                                }
                                 {/* <tr className="border-b border-amber-700 mb-8">
                                     <td>{}</td>
                                     <td>2</td>

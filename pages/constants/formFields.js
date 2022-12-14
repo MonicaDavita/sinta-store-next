@@ -35,7 +35,7 @@ const signupFields=[
     {
         labelText:"Nama Toko",
         labelFor:"nama-toko",
-        id:"nama-toko",
+        id:"nama",
         name:"toko",
         type:"toko",
         autoComplete:"toko",
@@ -51,16 +51,6 @@ const signupFields=[
         autoComplete:"current-password",
         isRequired:true,
         placeholder:"Password"   
-    },
-    {
-        labelText:"Confirm Password",
-        labelFor:"confirm-password",
-        id:"confirm-password",
-        name:"confirm-password",
-        type:"password",
-        autoComplete:"confirm-password",
-        isRequired:true,
-        placeholder:"Confirm Password"   
     }
 ]
 

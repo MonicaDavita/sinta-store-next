@@ -1,13 +1,34 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Fragment } from "react";
 import Sidebar from "./components/sidebar";
 import Modal from "./components/modalAjuan";
-import { dataAjuan } from "./constants/data";
 import TampilanAjuan from "./components/ajuanComp";
 
 export default function homeAdmin() {
     const [showModal, setShowModal] = useState(false);
+    const [data, setData] = useState(null);
+    const [isLoading, setLoading] = useState(false);
+    useEffect(() => {
+        setLoading(true)
 
+        async function postData(url = 'https://sinta.gdlx.live/toko') {
+            const response = await fetch(url, {
+                method: 'GET',
+                mode: 'cors',
+                headers: new Headers({ 'content-type': 'application/json' }),
+                headers: new Headers({ 'authorization': "Bearer " + window.localStorage.getItem("token") }),
+            });
+
+            const json = await response.json();
+            console.log(json)
+            return json
+        }
+        var response = postData()
+        response.then(res => {
+            console.log(res.data)
+            setData(res.data)
+        })
+    }, [])
     return (
         <Fragment>
             <div className="min-h-full h-screen justify-right py-6 sm:ml-40 lg:ml-60 mt-10">
@@ -29,9 +50,15 @@ export default function homeAdmin() {
                         </h4>
                     </div>
                 </div>
-                {dataAjuan.map((ajuan) => {
+                {data != null && data.map((ajuan) => {
                     return <TampilanAjuan props={ajuan} />
-                })}  
+                })}
+                {
+                    !data &&
+                    <div>
+                        Kosong
+                    </div>
+                }
             </div>
             <Sidebar />
             <Modal
