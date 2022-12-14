@@ -3,13 +3,41 @@ import { Fragment } from "react";
 import Link from "next/link";
 import SidebarKaryawan from "./components/sidebar-karyawan";
 import SearchBar from "./components/searchBar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "./components/modalAjuan";
 import BarangToko from "./components/BarangToko";
-import { dataBarang } from "./constants/data";
 
 export default function restockBarang() {
     const [showModal, setShowModal] = useState(false);
+    const [data, setData] = useState(null)
+    const [isLoading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setLoading(true)
+        // fetch('https://sinta.gdlx.live/stok')
+        //     .then((res) => res.json())
+        //     .then((data) => {
+        //         setData(data)
+        //         setLoading(false)
+        //     })
+        async function postData(url = 'https://sinta.gdlx.live/stok') {
+            const response = await fetch(url, {
+                method: 'GET',
+                mode: 'cors',
+                headers: new Headers({'content-type': 'application/json'}),
+                headers: new Headers({'authorization': "Bearer "+ window.localStorage.getItem("token")}),
+            });
+            
+            console.log(response)
+            const json = await response.json();
+            return json
+         }
+         var response = postData()
+         response.then(res => {
+            console.log(res.data.daftar_stok)
+            setData(res.data.daftar_stok)
+         })
+    }, [])
 
     return (
         <Fragment>
@@ -29,7 +57,7 @@ export default function restockBarang() {
                         <h2>Stok</h2>
                         <h2>Jumlah Ajuan</h2>
                     </div>
-                    {dataBarang.map((barang) => {
+                    {data && data.map((barang) => {
                         return <BarangToko props={barang} />
                     })}
 

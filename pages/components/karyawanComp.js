@@ -14,10 +14,10 @@ export default function tampilanKolam({ props }) {
                     </div>
                     <div className="grid grid-rows-2 justify-start ml-4">
                         <div className="box-border h-[30px] w-[200px] border bg-amber-700 border-black rounded-xl text-white text-bold flex justify-start items-center">
-                            <h2 className="ml-2 mb-1">{props.name}</h2>
+                            <h2 className="ml-2 mb-1">{props.nama}</h2>
                         </div>
                         <div className="ml-2">
-                            <h4>{props.toko}</h4>
+                            <h4>Toko {props.toko_id}</h4>
                         </div>
                     </div>
                 </div>
