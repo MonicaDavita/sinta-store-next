@@ -4,7 +4,7 @@ import Link from "next/link";
 import SidebarKaryawan from "./components/sidebar-karyawan";
 import SearchBar from "./components/searchBar";
 import { useState, useEffect } from "react";
-import Modal from "./components/modalAjuan";
+import Modal from "./components/modalRestock";
 import BarangToko from "./components/BarangToko";
 
 export default function restockBarang() {

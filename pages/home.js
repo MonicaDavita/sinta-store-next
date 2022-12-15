@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Fragment } from "react";
 import Sidebar from "./components/sidebar";
-import modal from "./components/modalAjuan";
+import Modal from "./components/modalAjuan";
 import TampilanAjuan from "./components/ajuanComp";
 
 export default function homeAdmin() {
@@ -61,7 +61,7 @@ export default function homeAdmin() {
                 }
             </div>
             <Sidebar />
-            <modal isVisible={showModal} onClose={() => setShowModal(false)} />
+            <Modal isVisible={showModal} onClose={() => setShowModal(false)} />
         </Fragment>
     )
 }

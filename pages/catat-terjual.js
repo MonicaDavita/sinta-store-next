@@ -1,4 +1,5 @@
 import React from "react";
+import Modal from "./components/modalTerjual";
 import { Fragment } from "react";
 import Link from "next/link";
 import SidebarKaryawan from "./components/sidebar-karyawan";
@@ -9,7 +10,7 @@ export default function CatatTerjual() {
 
     const [data, setData] = useState(null)
     const [isLoading, setLoading] = useState(false)
-
+    const [showModal, setShowModal] = useState(false);
     useEffect(() => {
         setLoading(true)
         async function postData(url = 'https://sinta.gdlx.live/stok') {
@@ -83,6 +84,7 @@ export default function CatatTerjual() {
                     </button>
                 </div>
                 <SidebarKaryawan />
+                <Modal isVisible={showModal} onClose={() => setShowModal(false)} />
             </div>
         </Fragment>
     )
