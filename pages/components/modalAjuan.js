@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState, useEffect } from 'react';
 import AjuanBarang from "./ajuanBarangModal";
 
-function modal({ isVisible, onClose, modalText, linkAjuan, props }) {
+function modal({ isVisible, onClose, modalText }) {
     const [count, setCount] = useState(0);
     const countStock = useState(10);
     const [data, setData] = useState(null);
@@ -39,8 +39,8 @@ function modal({ isVisible, onClose, modalText, linkAjuan, props }) {
         <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center" id="wrapper" onClick={handleClose}>
             <div className="md:w-[600px] sm:w-[500px] flex flex-col">
                 <button className="place-self-end text-white" onClick={() => onClose()}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
                 <div className="bg-white p-2 rounded text-black">
@@ -76,7 +76,7 @@ function modal({ isVisible, onClose, modalText, linkAjuan, props }) {
                         <div className="text-center items-center mt-24 mb-10">
                             <h1>{modalText}</h1>
                             <div className="grid-cols-2 flex justify-center mt-3">
-                                <Link href={linkAjuan}>
+                                <Link href="/sudah-proses">
                                     <button type="button" className="bg-green-500 hover:bg-green-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl mr-3">Iya</button>
                                 </Link>
                                 <button type="button" className="bg-red-500 hover:bg-red-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl ml-3">Tidak</button>

@@ -4,6 +4,7 @@ import { loginFields } from "./constants/formFields.js";
 import FormAction from "./components/FormAction.js";
 import FormExtra from "./components/FormExtra.js";
 import Input from "./components/Input.js";
+import Router from 'next/router';
 
 const fields = loginFields;
 let fieldsState = {};
@@ -12,6 +13,7 @@ fields.forEach(field => fieldsState[field.id] = '');
 export default function Login() {
      
     const [loginState, setLoginState] = useState(fieldsState);
+    const[resJSON, setResJSON] = useState(null)
 
     const handleChange = (e) => {
         setLoginState({ ...loginState, [e.target.id]: e.target.value })
@@ -20,6 +22,9 @@ export default function Login() {
     const handleSubmit = (e) => {
         e.preventDefault();
         authenticateUser();
+        if (resJSON != null && resJSON.status == true){
+            Router.push('/home')
+          }
     }
 
     //Handle Login API Integration here
@@ -35,12 +40,14 @@ export default function Login() {
             
             console.log(response)
             const json = await response.json();
+            setResJSON(json);
             return json
          }
          var response = postData() 
          response.then(res =>{
             if (res != null && res.status == true) {
                 window.localStorage.setItem("token", res.data)
+                Router.push('/home')
             }
          })
         }

@@ -2,7 +2,6 @@ import React from "react";
 import { Fragment, useState, useEffect } from "react";
 import Link from "next/link";
 import Sidebar from "./components/sidebar";
-import { dataKaryawan } from "./constants/data";
 import TampilanKolam from "./components/karyawanComp";
 
 export default function lihatKaryawan() {

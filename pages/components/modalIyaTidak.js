@@ -1,6 +1,6 @@
 import React from "react";
 
-function modalIyaTidak( { isVisible, onClose, namaKolam }){
+function modalIyaTidak( { isVisible, onClose, Props }){
     if ( !isVisible ) return null;
 
     const handleClose = (e) => {
