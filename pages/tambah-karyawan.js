@@ -3,14 +3,15 @@ import FormAction from "./components/FormAction.js";
 import Input from "./components/Input.js";
 import Sidebar from "./components/sidebar";
 import Link from "next/link";
+import { useState } from 'react';
 
 
 const fields = karyawanFields;
 let fieldsState = {};
 fields.forEach(field => fieldsState[field.id] = '');
 
-export default function TambahProduk() {
-
+export default function TambahKaryawan() {
+    const [karyawanState, setKaryawanState] = useState(fieldsState);
     const handleSubmit = (e) => {
         e.preventDefault();
         authenticateUser();
@@ -18,7 +19,7 @@ export default function TambahProduk() {
 
     //Handle Login API Integration here
     const authenticateUser = () => {
-        async function postData(url = 'https://sinta.gdlx.live/auth/karyawan', data = { karyawanState }) {
+        async function postData(url = 'https://sinta.gdlx.live/karyawan', data = { karyawanState }) {
 
             const response = await fetch(url, {
                 method: 'POST',
