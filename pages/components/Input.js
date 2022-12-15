@@ -10,7 +10,8 @@ export default function Input({
     type,
     isRequired=false,
     placeholder,
-    customClass
+    customClass,
+    defaultValue
 }){
     return(
         <div className='my-5'>
@@ -20,6 +21,7 @@ export default function Input({
             <input
               onChange={handleChange}
               value={value}
+              defaultValue={defaultValue}
               id={id}
               name={name}
               type={type}

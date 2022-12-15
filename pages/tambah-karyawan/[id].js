@@ -1,44 +1,47 @@
-import { produkFields } from "./constants/formFields.js";
-import FormAction from "./components/FormAction.js";
-import Input from "./components/Input.js";
-import Sidebar from "./components/sidebar";
+import { karyawanFields } from "../constants/formFields.js";
+import FormAction from "../components/FormAction.js";
+import Input from "../components/Input.js";
+import Sidebar from "../components/sidebar";
 import Link from "next/link";
-import { useState } from 'react';
+import { use, useEffect, useState } from 'react';
+import { useRouter } from "next/router.js";
 
 
-const fields = produkFields;
+const fields = karyawanFields;
 let fieldsState = {};
 fields.forEach(field => fieldsState[field.id] = '');
 
-export default function TambahProduk() {
-    const [produkState, setProdukState] = useState(fieldsState);
-
+export default function TambahKaryawan() {
+    const router = useRouter()
+    const  id  = router.query.id
+    const [karyawanState, setKaryawanState] = useState(fieldsState);
     const handleSubmit = (e) => {
         e.preventDefault();
         
-        console.log(produkState)
+        console.log(karyawanState)
         authenticateUser();
     }
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     authenticateUser();
-    // }
     
-    const handleChange = (e) => {
-        setProdukState({ ...produkState, [e.target.name]: e.target.value })
-        setProdukState({ ...produkState, harga: parseInt(produkState.harga) })
-    }
+    useEffect(() => {
+        setKaryawanState({ ...karyawanState, toko_id: parseInt(id) })
+    }, [id])
+    
+    
+    
+        const handleChange = (e) => {
+            setKaryawanState({ ...karyawanState, [e.target.name]: e.target.value })
+        }
     //Handle Login API Integration here
     const authenticateUser = () => {
-        async function postData(url = 'https://sinta.gdlx.live/produk', data = { produkState }) {
+        async function postData(url = 'https://sinta.gdlx.live/karyawan', data = { karyawanState }) {
 
             const response = await fetch(url, {
                 method: 'POST',
                 mode: 'cors',
-                headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + window.localStorage.getItem("token") }),
-                body: JSON.stringify(data.produkState)
+                headers: new Headers({ 'content-type': 'application/json' }),
+                body: JSON.stringify(data.karyawanState)
             });
-            console.log(produkState)
+            console.log(karyawanFields)
             const json = await response.json();
             console.log(json)
             return json
@@ -50,6 +53,7 @@ export default function TambahProduk() {
         //     }
         //  })
     }
+
 
     return (
         <>
@@ -63,16 +67,16 @@ export default function TambahProduk() {
                 </div>
                 <h1 className="ml-6 mt-6 text-justify text-2xl font-extrabold text-amber-700">Admin Sinta</h1>
                 <div className='flex flex-col justify-between items-center'>
-                    <h1 className="mt-6 text-justify text-2xl font-extrabold text-slate-900">Tambah Produk</h1>
+                    <h1 className="mt-6 text-justify text-2xl font-extrabold text-slate-900">Tambah Karyawan</h1>
 
                     <form className='mt-8 space-y-6 ' onSubmit={handleSubmit}>
                         <div className='w-full'>
-                        {
+                            {
                                 fields.map(field =>
                                     <Input
                                         key={field.id}
                                         handleChange={handleChange}
-                                        defaultValue={produkState[field.id]}
+                                        defaultValue={karyawanState[field.id]}
                                         labelText={field.labelText}
                                         labelFor={field.labelFor}
                                         name={field.name}
@@ -84,7 +88,7 @@ export default function TambahProduk() {
                                 )
                             }
                         </div>
-                        <FormAction handleSubmit={handleSubmit} text='Tambah Produk' />
+                        <FormAction handleSubmit={handleSubmit} text='Tambah Karyawan' />
 
                     </form>
                 </div>
@@ -92,4 +96,4 @@ export default function TambahProduk() {
             </div>
         </>
     )
-}
+}                                                                               

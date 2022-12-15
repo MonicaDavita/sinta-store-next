@@ -29,7 +29,7 @@ export default function tampilanKolam({ props }) {
                 </div>
             </div>
 
-            <ModalIyaTidak isVisible={showModal} onClose={() => setShowModal(false)} />
+            <ModalIyaTidak propID={props.id} isVisible={showModal} onClose={() => setShowModal(false)} />
         </Fragment>
     )
 }

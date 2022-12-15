@@ -8,9 +8,58 @@ import Modal from "./components/modalRestock";
 import BarangToko from "./components/BarangToko";
 
 export default function restockBarang() {
+
+    function checkKeyValueExist(key, value, array) {
+        for (var i = 0; i < array.length; i++) {
+            if (array[i][key] == value) {
+                console.log(key, value, array[i][key],"checkKeyValueExist")
+                return true;
+            }
+        }
+        return false;
+    }   
+
+    function changeJumlahIfKeyValueExist(key, value, array, newJumlah) {
+        for (var i = 0; i < array.length; i++) {
+            if (array[i][key] == value) {
+                array[i].jumlah = newJumlah;
+            }
+        }
+    }
+
     const [showModal, setShowModal] = useState(false);
     const [data, setData] = useState(null)
+    const [ajuan, setAjuan] = useState([])
     const [isLoading, setLoading] = useState(false)
+    const handleAjuan = (childAjuan) => {
+        var buffer = ajuan
+        changeJumlahIfKeyValueExist("produk_id", childAjuan.produk_id, buffer, childAjuan.jumlah)
+        console.log(buffer, "buffer")
+        setAjuan(!checkKeyValueExist("produk_id", childAjuan.produk_id, ajuan)?[...ajuan, childAjuan]:buffer)
+
+
+    }
+
+    const handleSubmit = (e) => {
+        postAjuan();
+    }
+    
+        async function postAjuan(url = 'https://sinta.gdlx.live/ajuan', data = { ajuan }) {
+            const response = await fetch(url, {
+                method: 'POST',
+                mode: 'cors',
+                headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + window.localStorage.getItem("token") }),
+                body: JSON.stringify({status:true, detail_ajuan:data.ajuan})
+            });
+            const json = await response.json();
+            console.log(json)
+            return json
+        }
+        var response = postAjuan()
+         response.then(res =>{
+            console.log(res)
+         })
+
 
     useEffect(() => {
         setLoading(true)
@@ -24,12 +73,11 @@ export default function restockBarang() {
             const response = await fetch(url, {
                 method: 'GET',
                 mode: 'cors',
-                headers: new Headers({'content-type': 'application/json'}),
-                headers: new Headers({'authorization': "Bearer "+ window.localStorage.getItem("token")}),
+                headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + window.localStorage.getItem("token") }),
             });
             
-            console.log(response)
             const json = await response.json();
+            console.log(json)
             return json
          }
          var response = postData()
@@ -57,21 +105,22 @@ export default function restockBarang() {
                         <h2>Stok</h2>
                         <h2>Jumlah Ajuan</h2>
                     </div>
-                    {data && data.map((barang) => {
-                        return <BarangToko props={barang} />
+                    {data!=null && data.map((barang) => {
+                        return <BarangToko props={barang} ajuanSetter={handleAjuan} ajuanState={ajuan}/>
                     })}
 
                     <div className="flex justify-center items-center md:justify-start">
-                        <button className='group relative w-1/2 flex justify-center py-2 px-4 md:ml-6 mb-6 border border-transparent text-sm font-medium rounded-md text-white bg-amber-700 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-amber-400 mt-5' onClick={() => setShowModal(true)}>
+                        <button className='group relative w-1/2 flex justify-center py-2 px-4 md:ml-6 mb-6 border border-transparent text-sm font-medium rounded-md text-white bg-amber-700 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-amber-400 mt-5' onClick={handleSubmit}>
                             Restock Barang
                         </button>
                     </div>
                     <SidebarKaryawan />
                 </div>
-                <Modal
+                {/* <Modal
                     modalText="Ajukan Barang?"
                     linkAjuan="/status-proses"
-                    isVisible={showModal} onClose={() => setShowModal(false)} />
+                    props={data}
+                    isVisible={showModal} onClose={() => setShowModal(false)} /> */}
             </div>
         </Fragment>
     )

@@ -27,9 +27,9 @@ export default function TambahKaryawan() {
                 headers: new Headers({ 'content-type': 'application/json' }),
                 body: JSON.stringify(data.karyawanState)
             });
-
-            console.log(response)
+            console.log(karyawanFields)
             const json = await response.json();
+            console.log(json)
             return json
         }
         var response = postData()

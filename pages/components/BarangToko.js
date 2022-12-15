@@ -1,6 +1,6 @@
-import React from "react";
-import { useState } from "react";
-export default function BarangToko({props}){
+import React, { use } from "react";
+import { useState, useEffect } from "react";
+export default function BarangToko({props, ajuanSetter}){
     const [count, setCount] = useState(0);
     const countStock = useState(10);
 
@@ -8,6 +8,7 @@ export default function BarangToko({props}){
         setCount(function (prevCount){
             return (prevCount += 1);
         });
+
     }
     function decrement(){
         setCount(function (prevCount){
@@ -18,7 +19,12 @@ export default function BarangToko({props}){
             }
         });
     }
-    {console.log(props)}
+
+    useEffect(()=>{
+        ajuanSetter && ajuanSetter({produk_id:props.id, jumlah:count})
+    }, [count])
+
+    // {console.log(props)}
     return (
     <div className="grid grid-cols-3 border box-border text-black text-center items-center">
                         <h2 className="ml-2">{props.produk.nama}</h2>

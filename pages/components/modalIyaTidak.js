@@ -3,11 +3,8 @@ import React, { useState, useEffect } from "react";
 function modalIyaTidak({ isVisible, onClose, propID }) {
     if (!isVisible) return null;
 
-    const handleClose = (e) => {
-        onClose();
-    }
-    useEffect(() => {
-        async function deleteData(url = 'https://sinta.gdlx.live/toko/' + propID) {
+
+    async function deleteData(url = 'https://sinta.gdlx.live/karyawan/delete/' + propID) {
             const response = await fetch(url, {
                 method: 'DELETE',
                 mode: 'cors',
@@ -16,9 +13,16 @@ function modalIyaTidak({ isVisible, onClose, propID }) {
             });
 
             const json = await response.json();
+            console.log(response)
             console.log(json)
             return json
         }
+
+    const handleClose = (e) => {
+        onClose();
+    }
+    useEffect(() => {
+        deleteData()
         
     })
     const [visible, setVisible] = useState(isVisible);
