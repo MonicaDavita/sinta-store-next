@@ -11,7 +11,7 @@ export default function homeAdmin() {
     useEffect(() => {
         setLoading(true)
 
-        async function postData(url = 'https://sinta.gdlx.live/toko') {
+        async function postData(url = 'https://sinta.gdlx.live/ajuan') {
             const response = await fetch(url, {
                 method: 'GET',
                 mode: 'cors',
@@ -53,12 +53,6 @@ export default function homeAdmin() {
                 {data != null && data.map((ajuan) => {
                     return <TampilanAjuan props={ajuan} />
                 })}
-                {
-                    !data &&
-                    <div>
-                        Kosong
-                    </div>
-                }
             </div>
             <Sidebar />
             <Modal isVisible={showModal} onClose={() => setShowModal(false)} />

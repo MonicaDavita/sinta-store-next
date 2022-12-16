@@ -12,7 +12,7 @@ export default function restockBarang() {
     function checkKeyValueExist(key, value, array) {
         for (var i = 0; i < array.length; i++) {
             if (array[i][key] == value) {
-                console.log(key, value, array[i][key],"checkKeyValueExist")
+                // console.log(key, value, array[i][key],"checkKeyValueExist")
                 return true;
             }
         }
@@ -45,11 +45,12 @@ export default function restockBarang() {
     }
     
         async function postAjuan(url = 'https://sinta.gdlx.live/ajuan', data = { ajuan }) {
+            console.log(ajuan)
             const response = await fetch(url, {
                 method: 'POST',
                 mode: 'cors',
                 headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + window.localStorage.getItem("token") }),
-                body: JSON.stringify({status:true, detail_ajuan:data.ajuan})
+                body: JSON.stringify({status:false, detail_ajuan:data.ajuan})
             });
             const json = await response.json();
             console.log(json)
@@ -57,7 +58,7 @@ export default function restockBarang() {
         }
         var response = postAjuan()
          response.then(res =>{
-            console.log(res)
+            // console.log(res)
          })
 
 
@@ -77,12 +78,12 @@ export default function restockBarang() {
             });
             
             const json = await response.json();
-            console.log(json)
+            // console.log(json)
             return json
          }
          var response = postData()
          response.then(res => {
-            console.log(res.data.daftar_stok)
+            // console.log(res.data.daftar_stok)
             setData(res.data.daftar_stok)
          })
     }, [])
