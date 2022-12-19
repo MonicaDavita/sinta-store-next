@@ -6,7 +6,57 @@ import SidebarKaryawan from "./components/sidebar-karyawan";
 import SearchBar from "./components/searchBar";
 import { useState, useEffect } from "react";
 import BarangToko from "./components/BarangToko";
+
 export default function CatatTerjual() {
+
+    const [catat, setCatat] = useState([])
+
+    function checkKeyValueExist(key, value, array) {
+        for (var i = 0; i < array.length; i++) {
+            if (array[i][key] == value) {
+                // console.log(key, value, array[i][key],"checkKeyValueExist")
+                return true;
+            }
+        }
+        return false;
+    }   
+
+    function changeJumlahIfKeyValueExist(key, value, array, newJumlah) {
+        for (var i = 0; i < array.length; i++) {
+            if (array[i][key] == value) {
+                array[i].jumlah = newJumlah;
+            }
+        }
+    }
+    
+    const handleCatat = (childAjuan) => {
+        var buffer = catat
+        changeJumlahIfKeyValueExist("produk_id", childAjuan.produk_id, buffer, childAjuan.jumlah)
+        console.log(buffer, "buffer")
+        setCatat(!checkKeyValueExist("produk_id", childAjuan.produk_id, catat)?[...catat, childAjuan]:buffer)
+
+    }
+
+    const handleSubmit = (e) => {
+        postAjuan();
+    }
+    
+        async function postAjuan(url = 'https://sinta.gdlx.live/transaksi', data = { catat }) {
+            console.log(catat)
+            const response = await fetch(url, {
+                method: 'POST',
+                mode: 'cors',
+                headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + window.localStorage.getItem("token") }),
+                body: JSON.stringify({detail_transaksi:data.catat})
+            });
+            console.log(catat, "responsnya")
+            const json = await response.json();
+            return json
+        }
+        var response = postAjuan()
+         response.then(res =>{
+            // console.log(res)
+         })
 
     const [data, setData] = useState(null)
     const [isLoading, setLoading] = useState(false)
@@ -54,8 +104,8 @@ export default function CatatTerjual() {
             <div className="min-h-full h-screen justify-start py-6 sm:ml-40 lg:ml-60 mt-10">
                 <div className="ml-6">
                     <Link href="/home">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
                         </svg>
                     </Link>
                 </div>
@@ -69,7 +119,7 @@ export default function CatatTerjual() {
                     </div>
                     {/* {console.log(data.data)} */}
                     {data && data.map((barang) => {
-                        return <BarangToko props={barang} />
+                        return <BarangToko props={barang} ajuanSetter={handleCatat} ajuan={false}/>
                     })}
                     {
                         !data &&
@@ -79,7 +129,7 @@ export default function CatatTerjual() {
                     }
                 </div>
                 <div className="flex justify-center items-center md:justify-start">
-                    <button className='group relative w-1/2 flex justify-center py-2 px-4 md:ml-6 mb-6 border border-transparent text-sm font-medium rounded-md text-white bg-amber-700 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-amber-400 mt-5'>
+                    <button className='group relative w-1/2 flex justify-center py-2 px-4 md:ml-6 mb-6 border border-transparent text-sm font-medium rounded-md text-white bg-amber-700 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-amber-400 mt-5' onClick={handleSubmit}>
                         Catat Terjual
                     </button>
                 </div>
