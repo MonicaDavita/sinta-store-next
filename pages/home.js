@@ -3,31 +3,39 @@ import { Fragment } from "react";
 import Sidebar from "./components/sidebar";
 import Modal from "./components/modalAjuan";
 import TampilanAjuan from "./components/ajuanComp";
+import Router from 'next/router'
 
 export default function homeAdmin() {
+    const [authToken, setAuthToken] = useState(null)
     const [showModal, setShowModal] = useState(false);
     const [data, setData] = useState(null);
     const [isLoading, setLoading] = useState(false);
+
     useEffect(() => {
-        setLoading(true)
-
-        async function postData(url = 'https://sinta.gdlx.live/ajuan') {
-            const response = await fetch(url, {
-                method: 'GET',
-                mode: 'cors',
-                headers: new Headers({ 'content-type': 'application/json' }),
-                headers: new Headers({ 'authorization': "Bearer " + window.localStorage.getItem("token") }),
-            });
-
-            const json = await response.json();
-            console.log(json)
-            return json
+        setAuthToken(window.localStorage.getItem("token"))
+        if (authToken == null) {
+            Router.push('/')
         }
-        var response = postData()
-        response.then(res => {
-            console.log(res.data)
-            setData(res.data)
-        })
+        else {
+            setLoading(true)
+            async function postData(url = 'https://sinta.gdlx.live/ajuan') {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: new Headers({ 'content-type': 'application/json' }),
+                    headers: new Headers({ 'authorization': "Bearer " + authToken }),
+                });
+
+                const json = await response.json();
+                console.log(json)
+                return json
+            }
+            var response = postData()
+            response.then(res => {
+                console.log(res.data)
+                setData(res.data)
+            })
+        }
     }, [])
     return (
         <Fragment>

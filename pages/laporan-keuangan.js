@@ -6,8 +6,11 @@ import { data } from "autoprefixer";
 import LaporanTokoButton from "./components/LaporanTokoButton";
 import TransaksiComponent from "./components/TransaksiComponent";
 import { clippingParents } from "@popperjs/core";
+import Router from "next/router";
 
-export default function laporanKeuangan(){
+export default function laporanKeuangan() {
+
+    const [authToken, setAuthToken] = useState(null)
 
     const [dataToko, setDataToko] = useState(null);
     const [dataTransaksi, setDataTransaksi] = useState([])
@@ -20,7 +23,7 @@ export default function laporanKeuangan(){
             method: 'GET',
             mode: 'cors',
             headers: new Headers({ 'content-type': 'application/json' }),
-            headers: new Headers({ 'authorization': "Bearer " + window.localStorage.getItem("token") }),
+            headers: new Headers({ 'authorization': "Bearer " + authToken }),
         });
 
         const json = await response.json();
@@ -29,24 +32,30 @@ export default function laporanKeuangan(){
     }
 
     async function getTransaksi(url = 'https://sinta.gdlx.live/transaksi', param1 = freq, param2 = transaksiTarget) {
-            const response = await fetch(url+'/'+param1+'/'+param2, {
-                method: 'GET',
-                mode: 'cors',
-                headers: new Headers({ 'content-type': 'application/json' }),
-                headers: new Headers({ 'authorization': "Bearer " + window.localStorage.getItem("token") }),
-            });
+        const response = await fetch(url + '/' + param1 + '/' + param2, {
+            method: 'GET',
+            mode: 'cors',
+            headers: new Headers({ 'content-type': 'application/json' }),
+            headers: new Headers({ 'authorization': "Bearer " + authToken }),
+        });
 
-            const json = await response.json();
-            console.log(json)
-            return json
-        }
+        const json = await response.json();
+        console.log(json)
+        return json
+    }
 
     useEffect(() => {
-        var response = getToko()
-        response.then(res => {
-            console.log(res.data)
-            setDataToko(res.data)
-        })
+        setAuthToken(window.localStorage.getItem("token"))
+        if (authToken == null) {
+            Router.push('/')
+        }
+        else {
+            var response = getToko()
+            response.then(res => {
+                console.log(res.data)
+                setDataToko(res.data)
+            })
+        }
 
         // var response = getTransaksi()
         // response.then(res => {
@@ -63,18 +72,18 @@ export default function laporanKeuangan(){
             console.log(transaksiTarget)
             setDataTransaksi(res.data)
         })
-    
+
 
     }, [freq, transaksiTarget])
-    console.log(dataTransaksi,"ini  dtr")
-    return(
+    console.log(dataTransaksi, "ini  dtr")
+    return (
         <div className="min-h-full h-screen justify-right py-6 sm:ml-40 lg:ml-60 mt-10">
             <div className="ml-6">
-            <Link href="/home">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-            </svg>
-            </Link>
+                <Link href="/home">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+                    </svg>
+                </Link>
             </div>
             <h1 className="ml-6 mt-6 text-justify text-2xl font-extrabold text-amber-700">Admin Sinta</h1>
             <div className="ml-6 grid grid-cols-3 justify-center">
@@ -92,7 +101,7 @@ export default function laporanKeuangan(){
                 <div className="grid grid-cols-6 justify-start h-10">
                     {
                         dataToko != null && dataToko.map((toko) => {
-                            return <LaporanTokoButton props={toko} transaksiSetter={setTransaksiTarget}/>
+                            return <LaporanTokoButton props={toko} transaksiSetter={setTransaksiTarget} />
                         })
                     }
                     <button className="mt-2 px-3 mb-2  box-border border border-black bg-amber-400 focus:bg-amber-600 text-black focus:text-white text-bold">
@@ -108,13 +117,13 @@ export default function laporanKeuangan(){
                     </div>
                     {
                         dataTransaksi && dataTransaksi.map((trxdata) => {
-                            return <TransaksiComponent props={trxdata}/>
+                            return <TransaksiComponent props={trxdata} />
                         })
                     }
                 </div>
                 <div className="grid grid-cols-2 text-right font-bold justify-start text-bold">
-                    <h2 className="ml-10 md:text-center">{dataTransaksi?dataTransaksi.reduce((key, val) => {return key+parseInt(val.jumlah)}, 0):null}</h2>
-                    <h2 className="mr-10 md:text-left md:pl-4">{dataTransaksi?dataTransaksi.reduce((key, val) => {return key+(parseInt(val.harga)*parseInt(val.jumlah))}, 0):null}</h2>
+                    <h2 className="ml-10 md:text-center">{dataTransaksi ? dataTransaksi.reduce((key, val) => { return key + parseInt(val.jumlah) }, 0) : null}</h2>
+                    <h2 className="mr-10 md:text-left md:pl-4">{dataTransaksi ? dataTransaksi.reduce((key, val) => { return key + (parseInt(val.harga) * parseInt(val.jumlah)) }, 0) : null}</h2>
                 </div>
             </div>
             <Sidebar />

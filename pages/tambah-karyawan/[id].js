@@ -5,6 +5,7 @@ import Sidebar from "../components/sidebar";
 import Link from "next/link";
 import { use, useEffect, useState } from 'react';
 import { useRouter } from "next/router.js";
+import Router from "next/router.js";
 
 
 const fields = karyawanFields;
@@ -14,6 +15,7 @@ fields.forEach(field => fieldsState[field.id] = '');
 export default function TambahKaryawan() {
     const router = useRouter()
     const  id  = router.query.id
+    const [authToken, setAuthToken] = useState(null)
     const [karyawanState, setKaryawanState] = useState(fieldsState);
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -21,6 +23,13 @@ export default function TambahKaryawan() {
         console.log(karyawanState)
         authenticateUser();
     }
+
+    useEffect(()=>{
+        setAuthToken(window.localStorage.getItem("token"))
+        if (authToken == null) {
+            Router.push('/')
+        }
+    })
     
     useEffect(() => {
         setKaryawanState({ ...karyawanState, toko_id: parseInt(id) })

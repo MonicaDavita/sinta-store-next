@@ -3,7 +3,8 @@ import FormAction from "./components/FormAction.js";
 import Input from "./components/Input.js";
 import Sidebar from "./components/sidebar";
 import Link from "next/link";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Router from "next/router";
 
 
 const fields = karyawanFields;
@@ -11,7 +12,17 @@ let fieldsState = {};
 fields.forEach(field => fieldsState[field.id] = '');
 
 export default function TambahKaryawan() {
+    
+    const [authToken, setAuthToken] = useState(null)
     const [karyawanState, setKaryawanState] = useState(fieldsState);
+    
+    useEffect(()=>{
+        setAuthToken(window.localStorage.getItem("token"))
+        if (authToken == null) {
+            Router.push('/')
+        }
+    })
+
     const handleSubmit = (e) => {
         e.preventDefault();
         authenticateUser();

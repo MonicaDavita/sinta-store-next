@@ -5,21 +5,29 @@ import TampilanHistory from "./components/TampilanHistory";
 import { dataHistory } from "./constants/data"
 import SearchBar from "./components/searchBar";
 import { useState, useEffect } from "react";
+import Router from "next/router";
 
 
 export default function history() {
     // fetching
+    const [authToken, setAuthToken] = useState(null)
     const [data, setData] = useState(null)
     const [isLoading, setLoading] = useState(false)
 
     useEffect(() => {
-        setLoading(true)
-        fetch('https://sinta.gdlx.live/produk')
-            .then((res) => res.json())
-            .then((data) => {
-                setData(data)
-                setLoading(false)
-            })
+        setAuthToken(window.localStorage.getItem("token"))
+        if (authToken == null) {
+            Router.push('/')
+        }
+        else {
+            setLoading(true)
+            fetch('https://sinta.gdlx.live/produk')
+                .then((res) => res.json())
+                .then((data) => {
+                    setData(data)
+                    setLoading(false)
+                })
+        }
     }, [])
 
     return (

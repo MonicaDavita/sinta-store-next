@@ -6,11 +6,43 @@ import SidebarKaryawan from "./components/sidebar-karyawan";
 import SearchBar from "./components/searchBar";
 import { useState, useEffect } from "react";
 import BarangToko from "./components/BarangToko";
+import Router from "next/router";
 
 export default function CatatTerjual() {
-
+    const [authToken, setAuthToken] = useState(null)
+    const [data, setData] = useState(null)
+    const [isLoading, setLoading] = useState(false)
+    const [showModal, setShowModal] = useState(false);
     const [catat, setCatat] = useState([])
 
+    useEffect(() => {
+        setAuthToken(window.localStorage.getItem("token"))
+        if (authToken == null){
+            Router.push('/')
+        }
+        else {
+            setLoading(true)
+            async function postData(url = 'https://sinta.gdlx.live/stok') {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: new Headers({ 'content-type': 'application/json' }),
+                    headers: new Headers({ 'authorization': "Bearer " + window.localStorage.getItem("token") }),
+                });
+        
+                console.log(response)
+                const json = await response.json();
+                return json
+            }
+        var response = postData()
+        response.then(res => {
+            console.log(res.data.daftar_stok)
+            setData(res.data.daftar_stok)
+        })
+        }
+    
+    }, [])
+    
     function checkKeyValueExist(key, value, array) {
         for (var i = 0; i < array.length; i++) {
             if (array[i][key] == value) {
@@ -19,8 +51,8 @@ export default function CatatTerjual() {
             }
         }
         return false;
-    }   
-
+    }
+    
     function changeJumlahIfKeyValueExist(key, value, array, newJumlah) {
         for (var i = 0; i < array.length; i++) {
             if (array[i][key] == value) {
@@ -28,59 +60,35 @@ export default function CatatTerjual() {
             }
         }
     }
-    
+
     const handleCatat = (childAjuan) => {
         var buffer = catat
         changeJumlahIfKeyValueExist("produk_id", childAjuan.produk_id, buffer, childAjuan.jumlah)
         console.log(buffer, "buffer")
-        setCatat(!checkKeyValueExist("produk_id", childAjuan.produk_id, catat)?[...catat, childAjuan]:buffer)
+        setCatat(!checkKeyValueExist("produk_id", childAjuan.produk_id, catat) ? [...catat, childAjuan] : buffer)
 
     }
 
     const handleSubmit = (e) => {
         postAjuan();
     }
-    
-        async function postAjuan(url = 'https://sinta.gdlx.live/transaksi', data = { catat }) {
-            console.log(catat)
-            const response = await fetch(url, {
-                method: 'POST',
-                mode: 'cors',
-                headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + window.localStorage.getItem("token") }),
-                body: JSON.stringify({detail_transaksi:data.catat})
-            });
-            console.log(catat, "responsnya")
-            const json = await response.json();
-            return json
-        }
-        var response = postAjuan()
-         response.then(res =>{
-            // console.log(res)
-         })
 
-    const [data, setData] = useState(null)
-    const [isLoading, setLoading] = useState(false)
-    const [showModal, setShowModal] = useState(false);
-    useEffect(() => {
-        setLoading(true)
-        async function postData(url = 'https://sinta.gdlx.live/stok') {
-            const response = await fetch(url, {
-                method: 'GET',
-                mode: 'cors',
-                headers: new Headers({'content-type': 'application/json'}),
-                headers: new Headers({'authorization': "Bearer "+ window.localStorage.getItem("token")}),
-            });
-            
-            console.log(response)
-            const json = await response.json();
-            return json
-         }
-         var response = postData()
-         response.then(res => {
-            console.log(res.data.daftar_stok)
-            setData(res.data.daftar_stok)
-         })
-    }, [])
+    // async function postAjuan(url = 'https://sinta.gdlx.live/transaksi', data = { catat }) {
+    //     console.log(catat)
+    //     const response = await fetch(url, {
+    //         method: 'POST',
+    //         mode: 'cors',
+    //         headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + authToken }),
+    //         body: JSON.stringify({ detail_transaksi: data.catat })
+    //     });
+    //     const json = await response.json();
+    //     return json
+    // }
+    // var response = postAjuan()
+    // response.then(res => {
+    //     // console.log(res)
+    // })
+
 
 
     const [count, setCount] = useState(0);
@@ -119,7 +127,7 @@ export default function CatatTerjual() {
                     </div>
                     {/* {console.log(data.data)} */}
                     {data && data.map((barang) => {
-                        return <BarangToko props={barang} ajuanSetter={handleCatat} ajuan={false}/>
+                        return <BarangToko props={barang} ajuanSetter={handleCatat} ajuan={false} />
                     })}
                     {
                         !data &&

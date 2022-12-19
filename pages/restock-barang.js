@@ -6,8 +6,41 @@ import SearchBar from "./components/searchBar";
 import { useState, useEffect } from "react";
 import Modal from "./components/modalRestock";
 import BarangToko from "./components/BarangToko";
+import Router from "next/router";
 
 export default function restockBarang() {
+
+    const [authToken, setAuthToken] = useState(null)
+    const [showModal, setShowModal] = useState(false);
+    const [data, setData] = useState(null)
+    const [ajuan, setAjuan] = useState([])
+    const [isLoading, setLoading] = useState(false)
+
+    useEffect(() => {
+        setAuthToken(window.localStorage.getItem("token"))
+        if (authToken == null) {
+            Router.push('/')
+        }
+        else {
+            setLoading(true)
+            async function postData(url = 'https://sinta.gdlx.live/stok') {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + authToken }),
+                });
+
+                const json = await response.json();
+                // console.log(json)
+                return json
+            }
+            var response = postData()
+            response.then(res => {
+                // console.log(res.data.daftar_stok)
+                setData(res.data.daftar_stok)
+            })
+        }
+    }, [])
 
     function checkKeyValueExist(key, value, array) {
         for (var i = 0; i < array.length; i++) {
@@ -17,7 +50,7 @@ export default function restockBarang() {
             }
         }
         return false;
-    }   
+    }
 
     function changeJumlahIfKeyValueExist(key, value, array, newJumlah) {
         for (var i = 0; i < array.length; i++) {
@@ -26,16 +59,11 @@ export default function restockBarang() {
             }
         }
     }
-
-    const [showModal, setShowModal] = useState(false);
-    const [data, setData] = useState(null)
-    const [ajuan, setAjuan] = useState([])
-    const [isLoading, setLoading] = useState(false)
     const handleAjuan = (childAjuan) => {
         var buffer = ajuan
         changeJumlahIfKeyValueExist("produk_id", childAjuan.produk_id, buffer, childAjuan.jumlah)
         console.log(buffer, "buffer")
-        setAjuan(!checkKeyValueExist("produk_id", childAjuan.produk_id, ajuan)?[...ajuan, childAjuan]:buffer)
+        setAjuan(!checkKeyValueExist("produk_id", childAjuan.produk_id, ajuan) ? [...ajuan, childAjuan] : buffer)
 
 
     }
@@ -43,50 +71,23 @@ export default function restockBarang() {
     const handleSubmit = (e) => {
         postAjuan();
     }
-    
-        async function postAjuan(url = 'https://sinta.gdlx.live/ajuan', data = { ajuan }) {
-            console.log(ajuan)
-            const response = await fetch(url, {
-                method: 'POST',
-                mode: 'cors',
-                headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + window.localStorage.getItem("token") }),
-                body: JSON.stringify({status:false, detail_ajuan:data.ajuan})
-            });
-            const json = await response.json();
-            console.log(json)
-            return json
-        }
-        var response = postAjuan()
-         response.then(res =>{
-            // console.log(res)
-         })
 
-
-    useEffect(() => {
-        setLoading(true)
-        // fetch('https://sinta.gdlx.live/stok')
-        //     .then((res) => res.json())
-        //     .then((data) => {
-        //         setData(data)
-        //         setLoading(false)
-        //     })
-        async function postData(url = 'https://sinta.gdlx.live/stok') {
-            const response = await fetch(url, {
-                method: 'GET',
-                mode: 'cors',
-                headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + window.localStorage.getItem("token") }),
-            });
-            
-            const json = await response.json();
-            // console.log(json)
-            return json
-         }
-         var response = postData()
-         response.then(res => {
-            // console.log(res.data.daftar_stok)
-            setData(res.data.daftar_stok)
-         })
-    }, [])
+    async function postAjuan(url = 'https://sinta.gdlx.live/ajuan', data = { ajuan }) {
+        console.log(ajuan)
+        const response = await fetch(url, {
+            method: 'POST',
+            mode: 'cors',
+            headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + authToken }),
+            body: JSON.stringify({ status: false, detail_ajuan: data.ajuan })
+        });
+        const json = await response.json();
+        console.log(json)
+        return json
+    }
+    var response = postAjuan()
+    response.then(res => {
+        // console.log(res)
+    })
 
     return (
         <Fragment>
@@ -106,8 +107,8 @@ export default function restockBarang() {
                         <h2>Stok</h2>
                         <h2>Jumlah Ajuan</h2>
                     </div>
-                    {data!=null && data.map((barang) => {
-                        return <BarangToko props={barang} ajuanSetter={handleAjuan} ajuanState={ajuan}/>
+                    {data != null && data.map((barang) => {
+                        return <BarangToko props={barang} ajuanSetter={handleAjuan} ajuanState={ajuan} />
                     })}
 
                     <div className="flex justify-center items-center md:justify-start">

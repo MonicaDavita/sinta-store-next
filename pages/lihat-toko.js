@@ -3,19 +3,27 @@ import Sidebar from "./components/sidebar";
 import Link from "next/link";
 import { useState, useEffect } from 'react';
 import TampilanKolam from "./components/tampilanKolam";
+import Router from "next/router";
 
 export default function lihatToko() {
+
+    const [authToken, setAuthToken] = useState(null)
     const [data, setData] = useState(null);
     const [isLoading, setLoading] = useState(false);
     useEffect(() => {
-        setLoading(true)
+        setAuthToken(window.localStorage.getItem("token"))
+        if (authToken == null) {
+            Router.push('/')
+        }
+        else {
+            setLoading(true)
 
         async function postData(url = 'https://sinta.gdlx.live/toko') {
             const response = await fetch(url, {
                 method: 'GET',
                 mode: 'cors',
                 headers: new Headers({ 'content-type': 'application/json' }),
-                headers: new Headers({ 'authorization': "Bearer " + window.localStorage.getItem("token") }),
+                headers: new Headers({ 'authorization': "Bearer " + authToken }),
             });
 
             const json = await response.json();
@@ -27,6 +35,7 @@ export default function lihatToko() {
             console.log(res.data)
             setData(res.data)
         })
+        }
     }, [])
     const [showModal, setShowModal] = useState(false);
     return (
