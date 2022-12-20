@@ -2,39 +2,47 @@ import React from "react";
 import Link from "next/link";
 import { useState, useEffect } from 'react';
 import CatatTerjual from "./catatTerjual";
+import Router from "next/router";
 
 function modalTerjual({ isVisible, onClose, modalText, props }) {
+    var token
     const [count, setCount] = useState(0);
     const countStock = useState(10);
     const [data, setData] = useState(null);
     const [isLoading, setLoading] = useState(false);
+
     useEffect(() => {
-        setLoading(true)
-
-        async function postData(url = 'https://sinta.gdlx.live/transaksi') {
-            const response = await fetch(url, {
-                method: 'GET',
-                mode: 'cors',
-                headers: new Headers({ 'content-type': 'application/json' }),
-                headers: new Headers({ 'authorization': "Bearer " + window.localStorage.getItem("token") }),
-            });
-
-            const json = await response.json();
-            console.log(json)
-            return json
+        token = window.localStorage.getItem("token")
+        if (token == null) {
+            Router.push('/')
         }
-        var response = postData()
-        response.then(res => {
-            console.log(res.data)
-            setData(res.data)
-        })
+        else {
+            setLoading(true)
+            async function postData(url = 'https://sinta.gdlx.live/transaksi') {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    mode: 'cors',
+                    headers: new Headers({ 'content-type': 'application/json' }),
+                    headers: new Headers({ 'authorization': "Bearer " + token }),
+                });
+
+                const json = await response.json();
+                console.log(json)
+                return json
+            }
+            var response = postData()
+            response.then(res => {
+                console.log(res.data)
+                setData(res.data)
+            })
+        }
     }, [])
     if (!isVisible) return null;
 
     const handleClose = (e) => {
         if (e.target.id === "wrapper") onClose();
     }
-    
+
     return (
         <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center" id="wrapper" onClick={handleClose}>
             <div className="md:w-[600px] sm:w-[500px] flex flex-col">

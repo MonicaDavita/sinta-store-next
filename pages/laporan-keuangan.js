@@ -10,7 +10,7 @@ import Router from "next/router";
 
 export default function laporanKeuangan() {
 
-    const [authToken, setAuthToken] = useState(null)
+    var token
 
     const [dataToko, setDataToko] = useState(null);
     const [dataTransaksi, setDataTransaksi] = useState([])
@@ -23,7 +23,7 @@ export default function laporanKeuangan() {
             method: 'GET',
             mode: 'cors',
             headers: new Headers({ 'content-type': 'application/json' }),
-            headers: new Headers({ 'authorization': "Bearer " + authToken }),
+            headers: new Headers({ 'authorization': "Bearer " + token }),
         });
 
         const json = await response.json();
@@ -36,7 +36,7 @@ export default function laporanKeuangan() {
             method: 'GET',
             mode: 'cors',
             headers: new Headers({ 'content-type': 'application/json' }),
-            headers: new Headers({ 'authorization': "Bearer " + authToken }),
+            headers: new Headers({ 'authorization': "Bearer " + token }),
         });
 
         const json = await response.json();
@@ -45,8 +45,8 @@ export default function laporanKeuangan() {
     }
 
     useEffect(() => {
-        setAuthToken(window.localStorage.getItem("token"))
-        if (authToken == null) {
+        token = window.localStorage.getItem("token")
+        if (token == null) {
             Router.push('/')
         }
         else {

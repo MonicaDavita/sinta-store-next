@@ -15,7 +15,7 @@ fields.forEach(field => fieldsState[field.id] = '');
 export default function TambahKaryawan() {
     const router = useRouter()
     const  id  = router.query.id
-    const [authToken, setAuthToken] = useState(null)
+    var token
     const [karyawanState, setKaryawanState] = useState(fieldsState);
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -25,8 +25,8 @@ export default function TambahKaryawan() {
     }
 
     useEffect(()=>{
-        setAuthToken(window.localStorage.getItem("token"))
-        if (authToken == null) {
+        token = window.localStorage.getItem("token")
+        if (token == null) {
             Router.push('/')
         }
     })

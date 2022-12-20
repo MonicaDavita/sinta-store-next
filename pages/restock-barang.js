@@ -10,15 +10,15 @@ import Router from "next/router";
 
 export default function restockBarang() {
 
-    const [authToken, setAuthToken] = useState(null)
+    var token
     const [showModal, setShowModal] = useState(false);
     const [data, setData] = useState(null)
     const [ajuan, setAjuan] = useState([])
     const [isLoading, setLoading] = useState(false)
 
     useEffect(() => {
-        setAuthToken(window.localStorage.getItem("token"))
-        if (authToken == null) {
+        token = window.localStorage.getItem("token")
+        if (token == null) {
             Router.push('/')
         }
         else {
@@ -27,7 +27,7 @@ export default function restockBarang() {
                 const response = await fetch(url, {
                     method: 'GET',
                     mode: 'cors',
-                    headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + authToken }),
+                    headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + token }),
                 });
 
                 const json = await response.json();
@@ -77,7 +77,7 @@ export default function restockBarang() {
         const response = await fetch(url, {
             method: 'POST',
             mode: 'cors',
-            headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + authToken }),
+            headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + token }),
             body: JSON.stringify({ status: false, detail_ajuan: data.ajuan })
         });
         const json = await response.json();

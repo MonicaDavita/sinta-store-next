@@ -10,13 +10,13 @@ import Router from "next/router";
 
 export default function history() {
     // fetching
-    const [authToken, setAuthToken] = useState(null)
+var token
     const [data, setData] = useState(null)
     const [isLoading, setLoading] = useState(false)
 
     useEffect(() => {
-        setAuthToken(window.localStorage.getItem("token"))
-        if (authToken == null) {
+        token = window.localStorage.getItem("token")
+        if (token == null) {
             Router.push('/')
         }
         else {

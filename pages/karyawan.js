@@ -7,12 +7,12 @@ import Router from "next/router";
 
 export default function lihatKaryawan() {
 
-    const [authToken, setAuthToken] = useState(null)
+    var token
     const [data, setData] = useState(null);
     const [isLoading, setLoading] = useState(false);
     useEffect(() => {
-        setAuthToken(window.localStorage.getItem("token"))
-        if (authToken == null) {
+        token = window.localStorage.getItem("token")
+        if (token == null) {
             Router.push('/')
         }
         else {
@@ -23,7 +23,7 @@ export default function lihatKaryawan() {
                     method: 'GET',
                     mode: 'cors',
                     headers: new Headers({ 'content-type': 'application/json' }),
-                    headers: new Headers({ 'authorization': "Bearer " + window.localStorage.getItem("token") }),
+                    headers: new Headers({ 'authorization': "Bearer " + token }),
                 });
 
                 const json = await response.json();

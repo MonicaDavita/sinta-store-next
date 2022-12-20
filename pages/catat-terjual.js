@@ -9,16 +9,18 @@ import BarangToko from "./components/BarangToko";
 import Router from "next/router";
 
 export default function CatatTerjual() {
-    const [authToken, setAuthToken] = useState(null)
+    var token
     const [data, setData] = useState(null)
     const [isLoading, setLoading] = useState(false)
     const [showModal, setShowModal] = useState(false);
     const [catat, setCatat] = useState([])
 
     useEffect(() => {
-        setAuthToken(window.localStorage.getItem("token"))
-        if (authToken == null){
-            Router.push('/')
+        token = window.localStorage.getItem("token")
+        console.log(token, "token")
+        if (token == null){
+            // console.log("anjeng")
+            // Router.push('/')
         }
         else {
             setLoading(true)
@@ -27,7 +29,7 @@ export default function CatatTerjual() {
                     method: 'GET',
                     mode: 'cors',
                     headers: new Headers({ 'content-type': 'application/json' }),
-                    headers: new Headers({ 'authorization': "Bearer " + window.localStorage.getItem("token") }),
+                    headers: new Headers({ 'authorization': "Bearer " + token }),
                 });
         
                 console.log(response)

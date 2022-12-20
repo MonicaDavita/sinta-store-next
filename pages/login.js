@@ -46,9 +46,18 @@ export default function Login() {
          var response = postData() 
          response.then(res =>{
             if (res != null && res.status == true) {
-                window.localStorage.setItem("token", res.data)
+                window.localStorage.setItem("token", res.data.token)
+                window.localStorage.setItem("role", res.data.role)
+            }
+
+            if (res.data.role == "toko") {
+                Router.push('/catat-terjual')
+            }
+            else if(res.data.role = "admin"){
                 Router.push('/home')
             }
+
+
          })
         }
         

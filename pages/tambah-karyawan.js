@@ -13,12 +13,12 @@ fields.forEach(field => fieldsState[field.id] = '');
 
 export default function TambahKaryawan() {
     
-    const [authToken, setAuthToken] = useState(null)
+    var token
     const [karyawanState, setKaryawanState] = useState(fieldsState);
     
     useEffect(()=>{
-        setAuthToken(window.localStorage.getItem("token"))
-        if (authToken == null) {
+        token = window.localStorage.getItem("token")
+        if (token == null) {
             Router.push('/')
         }
     })

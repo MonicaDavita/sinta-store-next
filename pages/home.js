@@ -6,14 +6,14 @@ import TampilanAjuan from "./components/ajuanComp";
 import Router from 'next/router'
 
 export default function homeAdmin() {
-    const [authToken, setAuthToken] = useState(null)
+    var token
     const [showModal, setShowModal] = useState(false);
     const [data, setData] = useState(null);
     const [isLoading, setLoading] = useState(false);
 
     useEffect(() => {
-        setAuthToken(window.localStorage.getItem("token"))
-        if (authToken == null) {
+        token = window.localStorage.getItem("token")
+        if (token == null) {
             Router.push('/')
         }
         else {
@@ -23,7 +23,7 @@ export default function homeAdmin() {
                     method: 'GET',
                     mode: 'cors',
                     headers: new Headers({ 'content-type': 'application/json' }),
-                    headers: new Headers({ 'authorization': "Bearer " + authToken }),
+                    headers: new Headers({ 'authorization': "Bearer " + token }),
                 });
 
                 const json = await response.json();
