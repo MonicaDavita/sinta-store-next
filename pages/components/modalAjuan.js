@@ -57,7 +57,6 @@ function modal({ isVisible, onClose, modalText, tokoID }) {
     }
     
     function handleAccept(){
-        acceptAjuan();
         var response = acceptAjuan()
     response.then(res => {
         console.log(res.data, "acc")

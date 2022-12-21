@@ -32,8 +32,8 @@ export default function CatatTerjual() {
                     headers: new Headers({ 'authorization': "Bearer " + token }),
                 });
         
-                console.log(response)
                 const json = await response.json();
+                console.log(json)
                 return json
             }
         var response = postData()

@@ -11,19 +11,22 @@ import Router from "next/router";
 export default function restockBarang() {
 
     var token
+    const [authToken, setAuthToken] = useState(null)
     const [showModal, setShowModal] = useState(false);
     const [data, setData] = useState(null)
     const [ajuan, setAjuan] = useState([])
+    const [makeAjuan, setMakeAjuan] = useState(false)
     const [isLoading, setLoading] = useState(false)
 
     useEffect(() => {
         token = window.localStorage.getItem("token")
+        setAuthToken(token)
         if (token == null) {
             Router.push('/')
         }
         else {
             setLoading(true)
-            async function postData(url = 'https://sinta.gdlx.live/stok') {
+            async function postData(url = 'https://sinta.gdlx.live/stok/produk') {
                 const response = await fetch(url, {
                     method: 'GET',
                     mode: 'cors',
@@ -31,13 +34,13 @@ export default function restockBarang() {
                 });
 
                 const json = await response.json();
-                // console.log(json)
+                console.log(json)
                 return json
             }
             var response = postData()
             response.then(res => {
                 // console.log(res.data.daftar_stok)
-                setData(res.data.daftar_stok)
+                setData(res.data)
             })
         }
     }, [])
@@ -69,25 +72,22 @@ export default function restockBarang() {
     }
 
     const handleSubmit = (e) => {
-        postAjuan();
+        if(authToken!=null){
+            postAjuan('https://sinta.gdlx.live/ajuan', ajuan, authToken)
+            Router.push('/home')
+        }
     }
-
-    async function postAjuan(url = 'https://sinta.gdlx.live/ajuan', data = { ajuan }) {
-        console.log(ajuan)
+    async function postAjuan(url = 'https://sinta.gdlx.live/ajuan', data = ajuan, token) {
+        console.log(data, "data")
         const response = await fetch(url, {
             method: 'POST',
             mode: 'cors',
             headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + token }),
-            body: JSON.stringify({ status: false, detail_ajuan: data.ajuan })
+            body: JSON.stringify({ status: false, detail_ajuan: data })
         });
         const json = await response.json();
-        console.log(json)
         return json
     }
-    var response = postAjuan()
-    response.then(res => {
-        // console.log(res)
-    })
 
     return (
         <Fragment>
@@ -107,10 +107,12 @@ export default function restockBarang() {
                         <h2>Stok</h2>
                         <h2>Jumlah Ajuan</h2>
                     </div>
+                    {
+                        console.log(data)
+                    }
                     {data != null && data.map((barang) => {
                         return <BarangToko props={barang} ajuanSetter={handleAjuan} ajuanState={ajuan} />
                     })}
-
                     <div className="flex justify-center items-center md:justify-start">
                         <button className='group relative w-1/2 flex justify-center py-2 px-4 md:ml-6 mb-6 border border-transparent text-sm font-medium rounded-md text-white bg-amber-700 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-amber-400 mt-5' onClick={handleSubmit}>
                             Restock Barang
