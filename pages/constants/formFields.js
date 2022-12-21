@@ -56,14 +56,14 @@ const signupFields=[
 
 const produkFields=[
     {
-        labelText:"Nama Produk",
-        labelFor:"nama produk",
+        labelText:"nama",
+        labelFor:"nama",
         id:"nama",
         name:"nama",
         type:"text",
         autoComplete:"nama",
         isRequired:true,
-        placeholder:"Nama Produk"   
+        placeholder:"Nama"   
     },
     {
         labelText:"Harga",

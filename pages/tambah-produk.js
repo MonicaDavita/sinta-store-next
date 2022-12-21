@@ -8,7 +8,8 @@ import { useState } from 'react';
 
 const fields = produkFields;
 let fieldsState = {};
-fields.forEach(field => fieldsState[field.id] = '');
+fields.forEach(field => {fieldsState[field.id] = null
+    console.log(field.id)});
 
 export default function TambahProduk() {
     const [produkState, setProdukState] = useState(fieldsState);
@@ -25,8 +26,9 @@ export default function TambahProduk() {
     // }
     
     const handleChange = (e) => {
-        setProdukState({ ...produkState, [e.target.name]: e.target.value })
-        setProdukState({ ...produkState, harga: parseInt(produkState.harga) })
+        console.log(fields,"fieldsState")
+        console.log(produkState)
+        setProdukState({ ...produkState, [e.target.id]: e.target.value })
     }
     //Handle Login API Integration here
     const authenticateUser = () => {
@@ -72,7 +74,7 @@ export default function TambahProduk() {
                                     <Input
                                         key={field.id}
                                         handleChange={handleChange}
-                                        defaultValue={produkState[field.id]}
+                                        defaultValue={fieldsState[field.id]}
                                         labelText={field.labelText}
                                         labelFor={field.labelFor}
                                         name={field.name}

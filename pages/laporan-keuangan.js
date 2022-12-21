@@ -117,7 +117,7 @@ export default function laporanKeuangan() {
                     </div>
                     {
                         dataTransaksi && dataTransaksi.map((trxdata) => {
-                            return <TransaksiComponent props={trxdata} />
+                            if(trxdata.jumlah!=0) return <TransaksiComponent props={trxdata} />
                         })
                     }
                 </div>
