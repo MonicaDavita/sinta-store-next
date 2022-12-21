@@ -10,6 +10,7 @@ import Router from "next/router";
 
 export default function CatatTerjual() {
     var token
+    const [authToken, setAuthToken] = useState(null)
     const [data, setData] = useState(null)
     const [isLoading, setLoading] = useState(false)
     const [showModal, setShowModal] = useState(false);
@@ -17,9 +18,9 @@ export default function CatatTerjual() {
 
     useEffect(() => {
         token = window.localStorage.getItem("token")
+        setAuthToken(token)
         console.log(token, "token")
         if (token == null){
-            // console.log("anjeng")
             // Router.push('/')
         }
         else {
@@ -33,7 +34,7 @@ export default function CatatTerjual() {
                 });
         
                 const json = await response.json();
-                console.log(json)
+                console.log("STOKKK", json)
                 return json
             }
         var response = postData()
@@ -72,20 +73,21 @@ export default function CatatTerjual() {
     }
 
     const handleSubmit = (e) => {
-        postAjuan();
+        postAjuan('https://sinta.gdlx.live/transaksi', catat, authToken)
     }
 
-    // async function postAjuan(url = 'https://sinta.gdlx.live/transaksi', data = { catat }) {
-    //     console.log(catat)
-    //     const response = await fetch(url, {
-    //         method: 'POST',
-    //         mode: 'cors',
-    //         headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + authToken }),
-    //         body: JSON.stringify({ detail_transaksi: data.catat })
-    //     });
-    //     const json = await response.json();
-    //     return json
-    // }
+    async function postAjuan(url = 'https://sinta.gdlx.live/transaksi', data = catat, token ) {
+        console.log(data)
+        const response = await fetch(url, {
+            method: 'POST',
+            mode: 'cors',
+            headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + token }),
+            body: JSON.stringify({ detail_transaksi: data })
+        });
+        const json = await response.json();
+        console.log(json)
+        return json
+    }
     // var response = postAjuan()
     // response.then(res => {
     //     // console.log(res)

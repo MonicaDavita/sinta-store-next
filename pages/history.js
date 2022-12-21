@@ -10,21 +10,28 @@ import Router from "next/router";
 
 export default function history() {
     // fetching
-var token
+
+    function parseJwt (token) {
+        return JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
+    }
+
+    
+    var token
     const [data, setData] = useState(null)
     const [isLoading, setLoading] = useState(false)
 
     useEffect(() => {
-        token = window.localStorage.getItem("token")
+        token = parseJwt(window.localStorage.getItem("token"))
         if (token == null) {
             Router.push('/')
         }
         else {
             setLoading(true)
-            fetch('https://sinta.gdlx.live/produk')
+            fetch('https://sinta.gdlx.live/transaksi/harian/'+token.toko_id)
                 .then((res) => res.json())
                 .then((data) => {
-                    setData(data)
+                    console.log(data.data)
+                    setData(data.data)
                     setLoading(false)
                 })
         }
@@ -48,8 +55,8 @@ var token
                         <h2>Terjual</h2>
                         <h2>Waktu</h2>
                     </div>
-                    {data && dataHistory.map((history) => {
-                        return <TampilanHistory props={history} />
+                    {data!=null && data.map((history) => {
+                        if(history.jumlah!=0) return <TampilanHistory key={history.id} props={history} />
                     })}
                     {!data && <div><Fragment>
                         <div className="min-h-full h-screen justify-start py-6 sm:ml-40 lg:ml-60 mt-10">
