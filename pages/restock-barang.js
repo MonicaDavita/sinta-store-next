@@ -75,7 +75,7 @@ export default function restockBarang() {
     const handleSubmit = (e) => {
         if (authToken != null) {
             setShowModal(true)
-            postAjuan('https://sinta.gdlx.live/ajuan', ajuan, authToken)
+            // postAjuan('https://sinta.gdlx.live/ajuan', ajuan, authToken)
         }
     }
     async function postAjuan(url = 'https://sinta.gdlx.live/ajuan', data = ajuan, token) {

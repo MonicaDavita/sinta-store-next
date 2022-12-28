@@ -1,5 +1,5 @@
 import React from "react";
-import Link from "next/link";
+import Router from "next/router"
 import { useState, useEffect } from 'react';
 import AjuanBarang from "./ajuanBarangModal";
 
@@ -8,17 +8,17 @@ function modal({ isVisible, onClose, modalText, tokoID }) {
     const countStock = useState(10);
     const [data, setData] = useState([]);
     const [isLoading, setLoading] = useState(false);
-    
+
     useEffect(() => {
         setLoading(true)
-    
+
         async function postData(url = 'https://sinta.gdlx.live/ajuan/' + tokoID) {
             const response = await fetch(url, {
                 method: 'GET',
                 mode: 'cors',
                 headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + window.localStorage.getItem("token") }),
             });
-    
+
             const json = await response.json();
             console.log(json, "tokoid")
             return json
@@ -30,7 +30,7 @@ function modal({ isVisible, onClose, modalText, tokoID }) {
         })
     }, [])
 
-    
+
     async function acceptAjuan(url = 'https://sinta.gdlx.live/ajuan/accept/' + data[0].ajuan_id) {
         const response = await fetch(url, {
             method: 'POST',
@@ -42,7 +42,7 @@ function modal({ isVisible, onClose, modalText, tokoID }) {
         console.log(json, "acceptajuan")
         return json
     }
-    
+
 
     async function declineAjuan(url = 'https://sinta.gdlx.live/ajuan/decline/' + data[0].ajuan_id) {
         const response = await fetch(url, {
@@ -50,36 +50,37 @@ function modal({ isVisible, onClose, modalText, tokoID }) {
             mode: 'cors',
             headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + window.localStorage.getItem("token") }),
         });
-        
+
         const json = await response.json();
         console.log(json, "decline")
         return json
     }
-    
-    function handleAccept(){
+
+    function handleAccept() {
         var response = acceptAjuan()
-    response.then(res => {
-        console.log(res.data, "acc")
-    })
+        response.then(res => {
+            console.log(res.data, "acc")
+        })
+        Router.push("/sudah-proses")
     }
 
-    function handleDecline(){
+    function handleDecline() {
         var response = declineAjuan()
         response.then(res => {
             console.log(res.data, "dec")
         })
-    
+
     }
-    
+
     if (!isVisible) return null;
-    
+
     const handleClose = (e) => {
         if (e.target.id === "wrapper") onClose();
     }
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-25 backdrop-blur-sm flex justify-center items-center" id="wrapper" onClick={handleClose}>
-            <div className="md:w-[600px] sm:w-[500px] flex flex-col">
+            <div className="w-[600px] flex flex-col mx-8 items-center">
                 <button className="place-self-end text-white" onClick={() => onClose()}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -119,7 +120,7 @@ function modal({ isVisible, onClose, modalText, tokoID }) {
                             <h1>{modalText}</h1>
                             <div className="grid-cols-2 flex justify-center mt-3">
                                 {/* <Link href="/home"> */}
-                                    <button type="button" className="bg-green-500 hover:bg-green-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl mr-3" onClick={handleAccept}>Iya</button>
+                                <button type="button" className="bg-green-500 hover:bg-green-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl mr-3" onClick={handleAccept}>Iya</button>
                                 {/* </Link> */}
                                 <button type="button" className="bg-red-500 hover:bg-red-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl ml-3" onClick={handleDecline}>Tidak</button>
                             </div>

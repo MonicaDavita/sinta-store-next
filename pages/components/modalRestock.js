@@ -76,7 +76,7 @@ export default function modalRestock({ isVisible, ajuanSetter, count, onClose, p
         if (authToken != null) {
             postAjuan('https://sinta.gdlx.live/ajuan', ajuan, authToken);
             < BarangToko ajuanSetter = { handleAjuan } ajuanState = { ajuan } />
-            Router.push('/home')
+             Router.push('/restock-barang')
         }
     }
     async function postAjuan(url = 'https://sinta.gdlx.live/ajuan', data = ajuan, token) {

@@ -92,19 +92,19 @@ export default function laporanKeuangan() {
                     <h2 className="mb-1 font-bold">Bulanan</h2>
                 </button>
             </div>
-            <div className="md:ml-6 grid grid-flow-row">
-                <div className="grid grid-flow-col justify-start h-10 text-center">
+            <div className="md:ml-6 grid items-start">
+                <div className="flex justify-start text-center overflow-x-scroll">
                     {
                         dataToko != null && dataToko.map((toko) => {
                             return <LaporanTokoButton props={toko} transaksiSetter={setTransaksiTarget} />
                         })
                     }
-                    <button className="mt-2 px-3 mb-2  box-border border border-black bg-amber-400 focus:bg-amber-600 text-black focus:text-white text-bold">
+                    <button className="mt-2 px-3 box-border border border-black bg-amber-400 focus:bg-amber-600 text-black focus:text-white text-bold">
                         <h3>TOTAL</h3>
                     </button>
                 </div>
-                <div className="grid grid-flow-row justify-start mt-4">
-                    <div className="grid grid-flow-col border box-border border-black bg-amber-300 text-black items-center font-semibold">
+                <div className="grid grid-rows-3 justify-start items-start text-center mt-4">
+                    <div className="grid grid-cols-4 border box-border border-black bg-amber-300 text-black text-center font-semibold">
                         <h2 className="ml-2">Nama</h2>
                         <h2 className="ml-2">Terjual</h2>
                         <h2 className="ml-2">Harga Satuan</h2>
@@ -115,11 +115,12 @@ export default function laporanKeuangan() {
                             if(trxdata.jumlah!=0) return <TransaksiComponent props={trxdata} />
                         })
                     }
+                    <div className="grid grid-cols-2 font-bold justify-end text-bold text-end">
+                    <h2 className="pr-10">{dataTransaksi ? dataTransaksi.reduce((key, val) => { return key + parseInt(val.jumlah) }, 0) : null}</h2>
+                    <h2 className="pr-6">{dataTransaksi ? dataTransaksi.reduce((key, val) => { return key + (parseInt(val.harga) * parseInt(val.jumlah)) }, 0) : null}</h2>
                 </div>
-                <div className="grid grid-cols-2 text-right font-bold justify-start text-bold">
-                    <h2 className="ml-10 md:text-center">{dataTransaksi ? dataTransaksi.reduce((key, val) => { return key + parseInt(val.jumlah) }, 0) : null}</h2>
-                    <h2 className="mr-10 md:text-left md:pl-4">{dataTransaksi ? dataTransaksi.reduce((key, val) => { return key + (parseInt(val.harga) * parseInt(val.jumlah)) }, 0) : null}</h2>
                 </div>
+                
             </div>
             <Sidebar />
         </div>
