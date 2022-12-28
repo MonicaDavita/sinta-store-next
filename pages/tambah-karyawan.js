@@ -13,16 +13,23 @@ let fieldsState = {};
 fields.forEach(field => fieldsState[field.id] = '');
 
 export default function TambahKaryawan() {
-    
+
     var token
     const [karyawanState, setKaryawanState] = useState(fieldsState);
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         token = window.localStorage.getItem("token")
         if (token == null) {
             Router.push('/')
         }
     })
+
+    const handleChange = (e) => {
+        console.log(fields,"karyawnanFields")
+        console.log(karyawanState)
+        setKaryawanState({ ...karyawanState, [e.target.id]: e.target.value })
+    }
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -67,9 +74,10 @@ export default function TambahKaryawan() {
                                 fields.map(field =>
                                     <Input
                                         key={field.id}
+                                        id={field.id}
+                                        handleChange={handleChange}
                                         labelText={field.labelText}
                                         labelFor={field.labelFor}
-                                        id={field.id}
                                         name={field.name}
                                         type={field.type}
                                         isRequired={field.isRequired}

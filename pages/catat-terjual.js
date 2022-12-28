@@ -22,7 +22,7 @@ export default function CatatTerjual( {namaToko} ) {
     useEffect(() => {
         token = window.localStorage.getItem("token")
         setAuthToken(token)
-        console.log(token, "token")
+        // console.log(token, "token")
         if (token == null){
             // Router.push('/')
         }
@@ -37,14 +37,14 @@ export default function CatatTerjual( {namaToko} ) {
                 });
         
                 const json = await response.json();
-                console.log("STOKKK", json)
-                console.log(json)
+                // console.log("STOKKK", json)
+                // console.log(json)
 
                 return json
             }
         var response = postData()
         response.then(res => {
-            console.log(res.data.daftar_stok)
+            // console.log(res.data.daftar_stok)
             setData(res.data.daftar_stok)
         })
         }
@@ -72,7 +72,7 @@ export default function CatatTerjual( {namaToko} ) {
     const handleCatat = (childAjuan) => {
         var buffer = catat
         changeJumlahIfKeyValueExist("produk_id", childAjuan.produk_id, buffer, childAjuan.jumlah)
-        console.log(buffer, "buffer")
+        // console.log(buffer, "buffer")
         setCatat(!checkKeyValueExist("produk_id", childAjuan.produk_id, catat) ? [...catat, childAjuan] : buffer)
 
     }
@@ -82,7 +82,7 @@ export default function CatatTerjual( {namaToko} ) {
     }
 
     async function postAjuan(url = 'https://sinta.gdlx.live/transaksi', data = catat, token ) {
-        console.log(data)
+        // console.log(data)
         const response = await fetch(url, {
             method: 'POST',
             mode: 'cors',
@@ -90,7 +90,7 @@ export default function CatatTerjual( {namaToko} ) {
             body: JSON.stringify({ detail_transaksi: data })
         });
         const json = await response.json();
-        console.log(json)
+        // console.log(json)
         return json
     }
     // var response = postAjuan()

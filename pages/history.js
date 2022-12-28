@@ -31,7 +31,7 @@ export default function history() {
             fetch('https://sinta.gdlx.live/transaksi/harian/' + token.toko_id)
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log(data.data)
+                    // console.log(data.data)
                     setData(data.data)
                     setLoading(false)
                 })

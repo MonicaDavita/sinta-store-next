@@ -17,10 +17,16 @@ export default function TambahKaryawan() {
     const  id  = router.query.id
     var token
     const [karyawanState, setKaryawanState] = useState(fieldsState);
+    
+    const handleChange = (e) => {
+        console.log(fields,"karyawnanFields")
+        console.log(karyawanState)
+        setKaryawanState({ ...karyawanState, [e.target.id]: e.target.value })
+    }
+
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        
-        console.log(karyawanState)
         authenticateUser();
     }
 
@@ -37,9 +43,7 @@ export default function TambahKaryawan() {
     
     
     
-        const handleChange = (e) => {
-            setKaryawanState({ ...karyawanState, [e.target.name]: e.target.value })
-        }
+        
     //Handle Login API Integration here
     const authenticateUser = () => {
         async function postData(url = 'https://sinta.gdlx.live/karyawan', data = { karyawanState }) {
@@ -47,7 +51,7 @@ export default function TambahKaryawan() {
             const response = await fetch(url, {
                 method: 'POST',
                 mode: 'cors',
-                headers: new Headers({ 'content-type': 'application/json' }),
+                headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + window.localStorage.getItem("token") }),
                 body: JSON.stringify(data.karyawanState)
             });
             console.log(karyawanFields)
@@ -84,8 +88,8 @@ export default function TambahKaryawan() {
                                 fields.map(field =>
                                     <Input
                                         key={field.id}
+                                        id={field.id}
                                         handleChange={handleChange}
-                                        defaultValue={karyawanState[field.id]}
                                         labelText={field.labelText}
                                         labelFor={field.labelFor}
                                         name={field.name}

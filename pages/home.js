@@ -27,12 +27,12 @@ export default function homeAdmin() {
                 });
 
                 const json = await response.json();
-                console.log(json)
+                // console.log(json)
                 return json
             }
             var response = postData()
             response.then(res => {
-                console.log(res.data)
+                // console.log(res.data)
                 setData(res.data)
             })
         }

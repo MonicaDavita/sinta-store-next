@@ -35,6 +35,7 @@ export default function TambahProduk() {
     const authenticateUser = () => {
         async function postData(url = 'https://sinta.gdlx.live/produk', data = { produkState }) {
 
+            data.produkState.harga = parseInt(data.produkState.harga)
             const response = await fetch(url, {
                 method: 'POST',
                 mode: 'cors',
@@ -68,8 +69,8 @@ export default function TambahProduk() {
                                 fields.map(field =>
                                     <Input
                                         key={field.id}
+                                        id={field.id}
                                         handleChange={handleChange}
-                                        defaultValue={fieldsState[field.id]}
                                         labelText={field.labelText}
                                         labelFor={field.labelFor}
                                         name={field.name}
