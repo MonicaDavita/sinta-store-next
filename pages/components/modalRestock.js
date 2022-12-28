@@ -13,6 +13,7 @@ export default function modalRestock({ isVisible, ajuanSetter, count, onClose, p
     const [isLoading, setLoading] = useState(false)
 
     useEffect(() => {
+        console.log("props modal", props)
         token = window.localStorage.getItem("token")
         setAuthToken(token)
         if (token == null) {
@@ -114,10 +115,12 @@ export default function modalRestock({ isVisible, ajuanSetter, count, onClose, p
                             </tr>
                         </thead>
                         <tbody className="text-left font-normal">
-                            <tr>
-                                <th>BARANG 1</th>
-                                <th>BARANG 2</th>
-                            </tr>
+                            {props.ajuan!=null && props.ajuan.map((ajuans)=>{
+                                return(<tr>
+                                    <th>ajuans.nama</th>
+                                    <th>ajuans.harga</th>
+                                </tr>)
+                            })}
                         </tbody>
                     </table>
                     <div className="grid grid-cols-2 mt-6 mb-4 justify-center place-items-center">

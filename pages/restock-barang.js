@@ -118,7 +118,7 @@ export default function restockBarang() {
                     <SidebarKaryawan />
                 </div>
                 <Modal
-                    // props={data}
+                    props={ajuan}
                     isVisible={showModal} onClose={() => setShowModal(false)} />
             </div>
         </Fragment>
