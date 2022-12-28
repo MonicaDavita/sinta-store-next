@@ -5,6 +5,7 @@ import Sidebar from "./components/sidebar";
 import Link from "next/link";
 import { useEffect, useState } from 'react';
 import Router from "next/router";
+import BackButton from "./components/backButton"
 
 
 const fields = karyawanFields;
@@ -55,13 +56,7 @@ export default function TambahKaryawan() {
     return (
         <>
             <div className="min-h-full h-screen justify-right py-6 sm:ml-40 lg:ml-60 mt-10">
-                <div className="ml-6">
-                    <Link href="/home">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                        </svg>
-                    </Link>
-                </div>
+                <BackButton />
                 <h1 className="ml-6 mt-6 text-justify text-2xl font-extrabold text-amber-700">Admin Sinta</h1>
                 <div className='flex flex-col justify-between items-center'>
                     <h1 className="mt-6 text-justify text-2xl font-extrabold text-slate-900">Tambah Karyawan</h1>

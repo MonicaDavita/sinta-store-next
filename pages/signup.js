@@ -43,7 +43,7 @@ export default function Signup() {
    var response = postData() 
    response.then(res =>{
       if (res.status == true) {
-        
+        Router.push('/')
       }
    })
     }

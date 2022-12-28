@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import Modal from "./components/modalRestock";
 import BarangToko from "./components/BarangToko";
 import Router from "next/router";
+import BackButton from "./components/backButton"
 
 export default function restockBarang() {
 
@@ -72,9 +73,9 @@ export default function restockBarang() {
     }
 
     const handleSubmit = (e) => {
-        if(authToken!=null){
+        if (authToken != null) {
+            setShowModal(true)
             postAjuan('https://sinta.gdlx.live/ajuan', ajuan, authToken)
-            Router.push('/home')
         }
     }
     async function postAjuan(url = 'https://sinta.gdlx.live/ajuan', data = ajuan, token) {
@@ -92,14 +93,8 @@ export default function restockBarang() {
     return (
         <Fragment>
             <div className="min-h-full h-screen justify-start py-6 sm:ml-40 lg:ml-60 mt-10">
-                <div className="ml-6">
-                    <Link href="/home">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                        </svg>
-                    </Link>
-                </div>
-                <h1 className="ml-6 mt-6 text-justify text-2xl font-extrabold text-black mb-4">Kolam 2 Restock</h1>
+                <BackButton />
+                <h1 className="ml-6 mt-6 text-justify text-2xl font-extrabold text-black mb-4">Restock</h1>
                 <SearchBar />
                 <div className="grid grid-rows-3 md:justify-start sm:justify-center position mt-4 md:ml-6">
                     <div className="grid grid-cols-3 border box-border border-black bg-amber-300 text-black items-center text-center font-semibold">
@@ -114,17 +109,15 @@ export default function restockBarang() {
                         return <BarangToko props={barang} ajuanSetter={handleAjuan} ajuanState={ajuan} />
                     })}
                     <div className="flex justify-center items-center md:justify-start">
-                        <button className='group relative w-1/2 flex justify-center py-2 px-4 md:ml-6 mb-6 border border-transparent text-sm font-medium rounded-md text-white bg-amber-700 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-amber-400 mt-5' onClick={handleSubmit}>
+                        <button className='group relative w-1/2 flex justify-center py-2 px-4 md:ml-6 mb-6 border border-transparent text-sm font-medium rounded-md text-white bg-amber-700 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:bg-amber-400 mt-5' onClick={() => setShowModal(true)}>
                             Restock Barang
                         </button>
                     </div>
                     <SidebarKaryawan />
                 </div>
-                {/* <Modal
-                    modalText="Ajukan Barang?"
-                    linkAjuan="/status-proses"
-                    props={data}
-                    isVisible={showModal} onClose={() => setShowModal(false)} /> */}
+                <Modal
+                    // props={data}
+                    isVisible={showModal} onClose={() => setShowModal(false)} />
             </div>
         </Fragment>
     )

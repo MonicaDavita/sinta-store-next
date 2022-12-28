@@ -5,6 +5,7 @@ import FormAction from "./components/FormAction.js";
 import FormExtra from "./components/FormExtra.js";
 import Input from "./components/Input.js";
 import Router from 'next/router';
+import CatatTerjual from './catat-terjual';
 
 const fields = loginFields;
 let fieldsState = {};
@@ -69,7 +70,7 @@ export default function Login() {
                 paragraph="Welcome back, you've been missed "
                 toSignin="Don't have an account yet? "
                 linkName="Signup"
-                linkUrl="/Signup"
+                linkUrl="/signup"
             />
             <div className='flex flex-col items-center'>
                 <form className='mt-8 space-y-6 ' onSubmit={handleSubmit}>

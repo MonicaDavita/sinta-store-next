@@ -1,20 +1,23 @@
 import React from "react";
 import Modal from "./components/modalTerjual";
 import { Fragment } from "react";
-import Link from "next/link";
+import BackButton from "./components/backButton";
 import SidebarKaryawan from "./components/sidebar-karyawan";
 import SearchBar from "./components/searchBar";
 import { useState, useEffect } from "react";
 import BarangToko from "./components/BarangToko";
-import Router from "next/router";
+import { useRouter } from "next/router";
 
-export default function CatatTerjual() {
+export default function CatatTerjual( {namaToko} ) {
     var token
     const [authToken, setAuthToken] = useState(null)
     const [data, setData] = useState(null)
     const [isLoading, setLoading] = useState(false)
     const [showModal, setShowModal] = useState(false);
     const [catat, setCatat] = useState([])
+    const router = useRouter()
+    // const finalSlashIndex = router.asPath.lastIndexOf('/')
+    // const previousPath = router.asPath.slice(0, finalSlashIndex)
 
     useEffect(() => {
         token = window.localStorage.getItem("token")
@@ -35,6 +38,8 @@ export default function CatatTerjual() {
         
                 const json = await response.json();
                 console.log("STOKKK", json)
+                console.log(json)
+
                 return json
             }
         var response = postData()
@@ -114,14 +119,8 @@ export default function CatatTerjual() {
     return (
         <Fragment>
             <div className="min-h-full h-screen justify-start py-6 sm:ml-40 lg:ml-60 mt-10">
-                <div className="ml-6">
-                    <Link href="/home">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-                        </svg>
-                    </Link>
-                </div>
-                <h1 className="ml-6 mt-6 text-justify text-2xl font-extrabold text-black mb-4">Kolam 2</h1>
+                <BackButton />
+                <h1 className="ml-6 mt-6 text-justify text-2xl font-extrabold text-black mb-4">Catat Terjual</h1>
                 <SearchBar />
                 <div className="grid grid-rows-3 md:justify-start sm:justify-center position mt-4 md:ml-6">
                     <div className="grid grid-cols-3 border box-border border-black bg-amber-300 text-black items-center text-center font-semibold">

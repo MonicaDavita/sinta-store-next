@@ -27,7 +27,7 @@ function sidebar(){
                     <Link href="/home">Home</Link>
                     </div>
                     <div className="border-b border-amber-700 pt-4 pb-4">
-                    <Link href="/lihatToko">Lihat Toko dan Tambah Karyawan</Link>
+                    <Link href="/lihat-toko">Lihat Toko dan Tambah Karyawan</Link>
                     </div>
                     <div className="border-b border-amber-700 pt-4 pb-4">
                     <Link href="/karyawan">Lihat Karyawan</Link>
