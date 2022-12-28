@@ -19,14 +19,14 @@ export default function BarangToko({ props, ajuanSetter, ajuan = true }) {
     }
 
     useEffect(() => {
-        ajuanSetter && ajuan && ajuanSetter({ produk_id: props.produk_id, jumlah: count })
+        ajuanSetter && ajuan && ajuanSetter({ produk_id: props.id, jumlah: count })
     }, [count])
 
     useEffect(() => {
         ajuanSetter && !ajuan && ajuanSetter({ produk_id: props.produk_id, jumlah: count, harga: props.produk.harga })
     }, [count])
 
-    { console.log("INI PROPS", props) }
+    { console.log("INI PROPS MODAL", props) }
     return (
         <div>
             <div className="grid grid-cols-3 border box-border text-black text-center items-center">
