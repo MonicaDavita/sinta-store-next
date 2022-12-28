@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Router from "next/router";
 import BarangToko from "./BarangToko";
 
-export default function modalRestock({ isVisible, ajuanSetter, count, onClose, props }) {
+export default function modalRestock({ isVisible, ajuanSetter, count, onClose, props, ajuanState, barangProps }) {
     if (!isVisible) return null;
     var token
     const [authToken, setAuthToken] = useState(null)
@@ -11,33 +11,32 @@ export default function modalRestock({ isVisible, ajuanSetter, count, onClose, p
     const [ajuan, setAjuan] = useState([])
     const [makeAjuan, setMakeAjuan] = useState(false)
     const [isLoading, setLoading] = useState(false)
-
+    console.log(props, "ini props di modal restock")
     useEffect(() => {
-        console.log("props modal", props)
         token = window.localStorage.getItem("token")
         setAuthToken(token)
         if (token == null) {
             Router.push('/')
         }
-        else {
-            setLoading(true)
-            async function postData(url = 'https://sinta.gdlx.live/stok/produk') {
-                const response = await fetch(url, {
-                    method: 'GET',
-                    mode: 'cors',
-                    headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + token }),
-                });
+        // else {
+        //     setLoading(true)
+        //     async function postData(url = 'https://sinta.gdlx.live/stok/produk') {
+        //         const response = await fetch(url, {
+        //             method: 'GET',
+        //             mode: 'cors',
+        //             headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + token }),
+        //         });
 
-                const json = await response.json();
-                console.log(json)
-                return json
-            }
-            var response = postData()
-            response.then(res => {
-                // console.log(res.data.daftar_stok)
-                setData(res.data)
-            })
-        }
+        //         const json = await response.json();
+        //         console.log(json)
+        //         return json
+        //     }
+        //     var response = postData()
+        //     response.then(res => {
+        //         // console.log(res.data.daftar_stok)
+        //         setData(res.data)
+        //     })
+        // }
     }, [])
 
     function checkKeyValueExist(key, value, array) {
@@ -75,12 +74,14 @@ export default function modalRestock({ isVisible, ajuanSetter, count, onClose, p
 
     const handleSubmit = (e) => {
         if (authToken != null) {
-            postAjuan('https://sinta.gdlx.live/ajuan', ajuan, authToken);
-            < BarangToko ajuanSetter = { handleAjuan } ajuanState = { ajuan } />
+            postAjuan('https://sinta.gdlx.live/ajuan', ajuanState, authToken);
+            // console.log(ajuan, "ajuan")
+            // < BarangToko ajuanSetter = { handleAjuan } ajuanState = { ajuan } />
+            console.log(ajuanState, "ajuan")
              Router.push('/restock-barang')
         }
     }
-    async function postAjuan(url = 'https://sinta.gdlx.live/ajuan', data = ajuan, token) {
+    async function postAjuan(url = 'https://sinta.gdlx.live/ajuan', data = ajuanState, token) {
         console.log(data, "data")
         const response = await fetch(url, {
             method: 'POST',
@@ -89,6 +90,7 @@ export default function modalRestock({ isVisible, ajuanSetter, count, onClose, p
             body: JSON.stringify({ status: false, detail_ajuan: data })
         });
         const json = await response.json();
+        console.log("MODAL RESTOCK", json, ajuan)
         return json
     }
     const handleClose = (e) => {
@@ -115,10 +117,10 @@ export default function modalRestock({ isVisible, ajuanSetter, count, onClose, p
                             </tr>
                         </thead>
                         <tbody className="text-left font-normal">
-                            {props.ajuan!=null && props.ajuan.map((ajuans)=>{
-                                return(<tr>
-                                    <th>ajuans.nama</th>
-                                    <th>ajuans.harga</th>
+                            {props!=null && props.map((ajuans)=>{
+                                if(ajuans.jumlah>0) return(<tr>
+                                    <th>{ajuans.nama_produk}</th>
+                                    <th>{ajuans.jumlah}</th>
                                 </tr>)
                             })}
                         </tbody>

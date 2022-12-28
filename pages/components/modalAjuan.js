@@ -98,7 +98,7 @@ function modal({ isVisible, onClose, modalText, tokoID }) {
                             </thead>
                             <tbody className="text-left">
                                 {data != null && data.map((ajuanBarang) => {
-                                    return <AjuanBarang props={ajuanBarang} />
+                                    if (ajuanBarang.jumlah>0) return <AjuanBarang props={ajuanBarang} />
                                 })}
                                 {/* {
                                     !data &&

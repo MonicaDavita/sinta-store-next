@@ -35,7 +35,7 @@ export default function restockBarang() {
                 });
 
                 const json = await response.json();
-                console.log(json)
+                console.log(json, "ini di restock barang")
                 return json
             }
             var response = postData()
@@ -87,8 +87,8 @@ export default function restockBarang() {
             body: JSON.stringify({ status: false, detail_ajuan: data })
         });
 
-        console.log("SUBMIT", ajuan)
         const json = await response.json();
+        console.log("SUBMIT", ajuan)
         return json
     }
 
@@ -118,6 +118,8 @@ export default function restockBarang() {
                     <SidebarKaryawan />
                 </div>
                 <Modal
+                    ajuanState={ajuan}
+                    barangProps={data}
                     props={ajuan}
                     isVisible={showModal} onClose={() => setShowModal(false)} />
             </div>

@@ -32,12 +32,12 @@ export default function CatatTerjual( {namaToko} ) {
                 const response = await fetch(url, {
                     method: 'GET',
                     mode: 'cors',
-                    headers: new Headers({ 'content-type': 'application/json' }),
-                    headers: new Headers({ 'authorization': "Bearer " + token }),
+                    headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + window.localStorage.getItem("token") }),
+                    // headers: new Headers({ 'authorization': "Bearer " + token }),
                 });
         
                 const json = await response.json();
-                // console.log("STOKKK", json)
+                console.log(json, "ini di catat terjual")
                 // console.log(json)
 
                 return json
@@ -78,7 +78,8 @@ export default function CatatTerjual( {namaToko} ) {
     }
 
     const handleSubmit = (e) => {
-        postAjuan('https://sinta.gdlx.live/transaksi', catat, authToken)
+        setShowModal(true)
+        // postAjuan('https://sinta.gdlx.live/transaksi', catat, authToken)
     }
 
     async function postAjuan(url = 'https://sinta.gdlx.live/transaksi', data = catat, token ) {
@@ -90,7 +91,6 @@ export default function CatatTerjual( {namaToko} ) {
             body: JSON.stringify({ detail_transaksi: data })
         });
         const json = await response.json();
-        // console.log(json)
         return json
     }
     // var response = postAjuan()
@@ -130,7 +130,7 @@ export default function CatatTerjual( {namaToko} ) {
                     </div>
                     {/* {console.log(data.data)} */}
                     {data && data.map((barang) => {
-                        return <BarangToko props={barang} ajuanSetter={handleCatat} ajuan={false} />
+                        if(barang.jumlah>0) return <BarangToko props={barang} ajuanSetter={handleCatat} ajuan={false} />
                     })}
                     {
                         !data &&
@@ -145,7 +145,7 @@ export default function CatatTerjual( {namaToko} ) {
                     </button>
                 </div>
                 <SidebarKaryawan />
-                <Modal isVisible={showModal} onClose={() => setShowModal(false)} />
+                <Modal isVisible={showModal} props={catat} onClose={() => setShowModal(false)} />
             </div>
         </Fragment>
     )

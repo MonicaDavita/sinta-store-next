@@ -16,7 +16,7 @@ export default function tampilanKolam({props}) {
                 <Link href={`/tambah-karyawan/${props.id}`}>Tambah Karyawan</Link>
             </button>
         </div>
-        <ModalIyaTidak isVisible={showModal} onClose={() => setShowModal(false)} propID={props.id} />
+        <ModalIyaTidak isVisible={showModal} isKaryawan={false} onClose={() => setShowModal(false)} propID={props.id} />
         </Fragment>
     )
 }

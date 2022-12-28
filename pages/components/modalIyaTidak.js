@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from "react";
 
-function modalIyaTidak({ isVisible, onClose, propID }) {
+function modalIyaTidak({ isVisible, onClose, propID, isKaryawan = true}) {
     if (!isVisible) return null;
 
 
-    async function deleteData(url = 'https://sinta.gdlx.live/karyawan/delete/' + propID) {
-            const response = await fetch(url, {
-                method: 'DELETE',
-                mode: 'cors',
-                headers: new Headers({ 'content-type': 'application/json' }),
-                headers: new Headers({ 'authorization': "Bearer " + window.localStorage.getItem("token") }),
-            });
-
-            const json = await response.json();
-            console.log(response)
-            console.log(json)
+    async function deleteData() {
+        var url
+        if(isKaryawan) url = 'https://sinta.gdlx.live/karyawan/delete/' + propID
+        else url = 'https://sinta.gdlx.live/toko/' + propID
+        const response = await fetch(url, {
+            method: 'DELETE',
+            mode: 'cors',
+            headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + window.localStorage.getItem("token") }),
+        });
+        
+        const json = await response.json();
+        console.log(json, "modal delete")
             return json
         }
 
     const handleClose = (e) => {
         onClose();
     }
-    useEffect(() => {
-        deleteData()
+    // useEffect(() => {
+    //     deleteData()
         
-    })
+    // })
     const [visible, setVisible] = useState(isVisible);
 
     return (
@@ -38,7 +39,7 @@ function modalIyaTidak({ isVisible, onClose, propID }) {
                 <div className="bg-white p-2 rounded text-black grid grid-rows-2 gap-0 justify-center place-items-center">
                     <h1 className="text-center">Hapus Toko?</h1>
                     <div className="grid grid-cols-2 mt-6 mb-4 justify-center place-items-center">
-                        <button type="button" className="bg-green-500 hover:bg-green-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl mr-3" onClick={deleteData}>Iya</button>
+                        <button type="button" className="bg-green-500 hover:bg-green-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl mr-3" onClick={()=>deleteData()}>Iya</button>
                         <button type="button" className="bg-red-500 hover:bg-red-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl ml-3" onClick={handleClose}>Tidak</button>
                     </div>
                 </div>

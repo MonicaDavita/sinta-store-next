@@ -43,7 +43,7 @@ export default function TambahKaryawan() {
             const response = await fetch(url, {
                 method: 'POST',
                 mode: 'cors',
-                headers: new Headers({ 'content-type': 'application/json' }),
+                headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + window.localStorage.getItem("token") }),
                 body: JSON.stringify(data.karyawanState)
             });
             console.log(karyawanFields)

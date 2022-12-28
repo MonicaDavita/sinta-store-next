@@ -59,7 +59,7 @@ export default function homeAdmin() {
                     </div>
                 </div>
                 {data != null && data.map((ajuan) => {
-                    return <TampilanAjuan props={ajuan} />
+                     return <TampilanAjuan props={ajuan} />
                 })}
             </div>
             <Sidebar />

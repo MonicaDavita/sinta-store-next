@@ -6,13 +6,15 @@ import Router from "next/router";
 
 function modalTerjual({ isVisible, onClose, modalText, props }) {
     var token
+    const [authToken, setAuthToken] = useState(null)
     const [count, setCount] = useState(0);
     const countStock = useState(10);
     const [data, setData] = useState(null);
     const [isLoading, setLoading] = useState(false);
-
+    console.log(props, "props modal  catat")
     useEffect(() => {
         token = window.localStorage.getItem("token")
+        setAuthToken(token)
         if (token == null) {
             Router.push('/')
         }
@@ -22,12 +24,11 @@ function modalTerjual({ isVisible, onClose, modalText, props }) {
                 const response = await fetch(url, {
                     method: 'GET',
                     mode: 'cors',
-                    headers: new Headers({ 'content-type': 'application/json' }),
-                    headers: new Headers({ 'authorization': "Bearer " + token }),
+                    headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + window.localStorage.getItem("token") }),
                 });
 
                 const json = await response.json();
-                console.log(json)
+                console.log(json, "MODAL TERJUAL")
                 return json
             }
             var response = postData()
@@ -41,6 +42,25 @@ function modalTerjual({ isVisible, onClose, modalText, props }) {
 
     const handleClose = (e) => {
         if (e.target.id === "wrapper") onClose();
+    }
+
+    const handleSubmit = (e) => {
+        // setShowModal(true)
+        postAjuan('https://sinta.gdlx.live/transaksi', props, authToken)
+        Router.push("/catat-terjual")
+    }
+
+    async function postAjuan(url = 'https://sinta.gdlx.live/transaksi', data = props, token ) {
+        // console.log(data)
+        const response = await fetch(url, {
+            method: 'POST',
+            mode: 'cors',
+            headers: new Headers({ 'content-type': 'application/json', 'authorization': "Bearer " + token }),
+            body: JSON.stringify({ detail_transaksi: data })
+        });
+        const json = await response.json();
+        console.log(json, "MODAL TERJUAL")
+        return json
     }
 
     return (
@@ -62,8 +82,8 @@ function modalTerjual({ isVisible, onClose, modalText, props }) {
                                 </tr>
                             </thead>
                             <tbody className="text-left">
-                                {data.map((catatTerjual) => {
-                                    return <CatatTerjual props={catatTerjual} />
+                                {props!= null && props.map((catatTerjual) => {
+                                    if(catatTerjual.jumlah>0) return <CatatTerjual props={catatTerjual} />
                                 })}
                                 {
                                     !data &&
@@ -76,10 +96,11 @@ function modalTerjual({ isVisible, onClose, modalText, props }) {
                         <div className="text-center items-center mt-24 mb-10">
                             <h1>{modalText}</h1>
                             <div className="grid-cols-2 flex justify-center mt-3">
-                                <Link href="/sudah-proses">
-                                    <button type="button" className="bg-green-500 hover:bg-green-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl mr-3">Iya</button>
-                                </Link>
-                                <button type="button" className="bg-red-500 hover:bg-red-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl ml-3">Tidak</button>
+                                {/* <Link href="/sudah-proses"> */}
+                                <button type="button" className="bg-green-500 hover:bg-green-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl mr-3" onClick={handleSubmit}>Iya</button>
+                                <button type="button" className="bg-red-500 hover:bg-red-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl ml-3" onClick={handleClose}>Tidak</button>
+                                {/* </Link> */}
+                                {/* <button type="button" className="bg-red-500 hover:bg-red-700 pt-1 pb-1 pr-3 pl-3 rounded-lg text-white text-0.5xl ml-3">Tidak</button> */}
                             </div>
                         </div>
                     </div>
