@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 
 export default function CatatTerjual( {namaToko} ) {
     var token
+    const [query, setQuery] = useState("")
     const [authToken, setAuthToken] = useState(null)
     const [data, setData] = useState(null)
     const [isLoading, setLoading] = useState(false)
@@ -121,7 +122,7 @@ export default function CatatTerjual( {namaToko} ) {
             <div className="min-h-full h-screen justify-start py-6 sm:ml-40 lg:ml-60 mt-10">
                 <BackButton />
                 <h1 className="ml-6 mt-6 text-justify text-2xl font-extrabold text-black mb-4">Catat Terjual</h1>
-                <SearchBar />
+                <SearchBar querySetter={setQuery} query={query}/>
                 <div className="grid grid-rows-3 md:justify-start sm:justify-center position mt-4 md:ml-6">
                     <div className="grid grid-cols-3 border box-border border-black bg-amber-300 text-black items-center text-center font-semibold">
                         <h2>Nama</h2>
@@ -130,7 +131,8 @@ export default function CatatTerjual( {namaToko} ) {
                     </div>
                     {/* {console.log(data.data)} */}
                     {data && data.map((barang) => {
-                        if(barang.jumlah>0) return <BarangToko props={barang} ajuanSetter={handleCatat} ajuan={false} />
+                        if(barang.jumlah>0 && barang.produk.nama.replace(/\s/g, "").toLowerCase().includes(query.replace(/\s/g, "").toLowerCase())) return <BarangToko props={barang} ajuanSetter={handleCatat} ajuan={false} />
+                        else console.log(barang.produk.nama.replace(/\s/g, ""), " vs ", query.replace(/\s/g, ""))
                     })}
                     {
                         !data &&

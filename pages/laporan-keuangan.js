@@ -8,6 +8,7 @@ import TransaksiComponent from "./components/TransaksiComponent";
 import { clippingParents } from "@popperjs/core";
 import Router from "next/router";
 import BackButton from "./components/backButton"
+import TransaksiTotal from "./components/transaksiTotal";
 
 export default function laporanKeuangan() {
 
@@ -99,9 +100,9 @@ export default function laporanKeuangan() {
                             return <LaporanTokoButton props={toko} transaksiSetter={setTransaksiTarget} />
                         })
                     }
-                    {/* <button className="mt-2 px-3 box-border border border-black bg-amber-400 focus:bg-amber-600 text-black focus:text-white text-bold">
+                    <button className="mt-2 px-3 box-border border border-black bg-amber-400 focus:bg-amber-600 text-black focus:text-white text-bold" onClick={()=>setTransaksiTarget("total")}>
                         <h3>TOTAL</h3>
-                    </button> */}
+                    </button>
                 </div>
                 <div className="grid grid-rows-3 justify-start items-start text-center mt-4">
                     <div className="grid grid-cols-4 border box-border border-black bg-amber-300 text-black text-center font-semibold">
@@ -111,9 +112,16 @@ export default function laporanKeuangan() {
                         <h2 className="ml-2">Harga Total</h2>
                     </div>
                     {
-                        dataTransaksi && dataTransaksi.map((trxdata) => {
+                        dataTransaksi && transaksiTarget!="total" && dataTransaksi.map((trxdata) => {
                             if(trxdata.jumlah!=0) return <TransaksiComponent props={trxdata} />
                         })
+                        
+                    }
+                    {
+                        dataTransaksi && transaksiTarget=="total" && dataTransaksi.map((trxdata) => {
+                            if(trxdata.jumlah!=0) return <TransaksiTotal props={trxdata} />
+                        })
+                        
                     }
                     <div className="grid grid-cols-2 font-bold justify-end text-bold text-end">
                     <h2 className="pr-10">{dataTransaksi ? dataTransaksi.reduce((key, val) => { return key + parseInt(val.jumlah) }, 0) : null}</h2>

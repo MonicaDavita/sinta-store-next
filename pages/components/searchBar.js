@@ -1,6 +1,6 @@
 import { useRef } from "react";
 
-const searchBar = () => {
+const searchBar = ({querySetter, query}) => {
     const clickPoint = useRef();
     const handleFocus = () => {
         clickPoint.current.style.display = "none";
@@ -18,6 +18,8 @@ const searchBar = () => {
                 </div>
                 <input
                     type="text"
+                    value={query}
+                    onChange={(e) => querySetter(e.target.value)}
                     className="block p-2 pl-10 w-80 text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:pl-3"
                     placeholder="Search Here..."
                     onFocus={handleFocus}
